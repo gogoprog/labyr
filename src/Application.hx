@@ -6,11 +6,13 @@ import gengine.graphics.*;
 import ash.fsm.*;
 
 import systems.*;
+import js.*;
 
 class Application
 {
     private static var engine:Engine;
     public static var esm:EngineStateMachine;
+    public static var pages:PagesSet;
 
     public static function init()
     {
@@ -34,5 +36,9 @@ class Application
         esm.addState("Game", gameState);
 
         esm.changeState("Menu");
+
+        pages = UIPages.createSet(new JQuery("#body"));
+
+        pages.showPage("#menu");
     }
 }

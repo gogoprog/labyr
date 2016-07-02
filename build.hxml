@@ -3,3 +3,4 @@
 -cp ./src/
 -main gengine.Main
 -js ./generated/main.js
+-lib jquery-uipages

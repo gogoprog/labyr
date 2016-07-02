@@ -8,7 +8,7 @@ body {
     src: url("ALFABET_.ttf");
 }
 
-#body {
+#body < div {
     display:block;
     text-align:center;
     font-family: mainFont;

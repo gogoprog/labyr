@@ -1,6 +1,11 @@
 body {
+    position:absolute;
     padding:0;
     margin:0;
+    height:768px;
+    width:1024px;
+    overflow:hidden;
+    background:transparent;
 }
 
 @font-face {
@@ -8,15 +13,32 @@ body {
     src: url("ALFABET_.ttf");
 }
 
-#body < div {
+#body {
+    position:absolute;
+    left:0;
+    top:0;
     display:block;
     text-align:center;
     font-family: mainFont;
     font-weight: normal;
     height:100%;
-    margin:auto;
+    width:100%;
     padding:0;
     overflow:hidden;
+}
+
+#body > div {
+    position:absolute;
+    display:block;
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    padding:0;
+    overflow:hidden;
+}
+
+.menu {
     background-image: url("/gui/background.png");
     background-size: 100% 100%;
 }

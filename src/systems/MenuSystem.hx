@@ -42,6 +42,7 @@ class MenuSystem extends System
         trace("onStartClick");
 
         Application.esm.changeState("Game");
+        Application.pages.showPage(".hud");
     }
 
     private function onQuitClick()

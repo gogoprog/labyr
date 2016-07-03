@@ -33,6 +33,7 @@ class Application
         esm.addState("Menu", menuState);
 
         var gameState = new EngineState();
+        gameState.addInstance(new GameSystem());
         esm.addState("Game", gameState);
 
         esm.changeState("Menu");

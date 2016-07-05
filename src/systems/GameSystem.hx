@@ -5,6 +5,7 @@ import gengine.components.*;
 import ash.systems.*;
 import ash.fsm.*;
 import components.*;
+import gengine.math.*;
 
 class GameSystem extends System
 {
@@ -41,6 +42,15 @@ class GameSystem extends System
         e.get(StaticSprite2D).setSprite(Gengine.getResourceCache().getSprite2D("tile0.png", true));
 
         e.get(Tile).sm = sm;
+
+        sm.createState("idle");
+
+        sm.createState("moving")
+            .add(TileMovement).withInstance(new TileMovement());
+
+        e.get(Tile).sm.changeState("moving");
+        e.get(TileMovement).from = new Vector2(0, 0);
+        e.get(TileMovement).to = new Vector2(Math.random() * 256, Math.random() * 256);
 
         return e;
     }

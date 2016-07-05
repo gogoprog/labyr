@@ -34,6 +34,7 @@ class Application
 
         var gameState = new EngineState();
         gameState.addInstance(new GameSystem());
+        gameState.addInstance(new TileMovementSystem());
         esm.addState("Game", gameState);
 
         esm.changeState("Menu");

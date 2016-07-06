@@ -41,7 +41,7 @@ class MenuSystem extends System
     {
         trace("onStartClick");
 
-        Application.esm.changeState("Game");
+        Application.esm.changeState("gameFalling");
         Application.pages.showPage(".hud");
     }
 

@@ -28,7 +28,7 @@ class GameSystem extends System
 
         if(input.getScancodePress(41))
         {
-            Application.esm.changeState("Menu");
+            Application.esm.changeState("menu");
         }
     }
 
@@ -48,21 +48,25 @@ class GameSystem extends System
         sm.createState("moving")
             .add(TileMovement).withInstance(new TileMovement());
 
-        e.get(Tile).sm.changeState("moving");
-        e.get(TileMovement).from = new Vector2(0, 0);
-        e.get(TileMovement).to = new Vector2(Math.random() * 256, Math.random() * 256);
-
         return e;
     }
 
     private function newGrid()
     {
+        var offset = new Vector2(-5 * 64 + 32, -5 * 64 + 32);
+
         for(i in 0...10)
         {
             for(j in 0...10)
             {
                 var e = createItem();
                 engine.addEntity(e);
+
+                e.get(Tile).sm.changeState("moving");
+                e.get(TileMovement).from = new Vector2(offset.x + i * 64, offset.y + j * 64 + 10 * 64);
+                e.get(TileMovement).to =  new Vector2(offset.x + i * 64, offset.y + j * 64);
+                e.get(TileMovement).duration = 1;
+                e.get(TileMovement).time = 0;
             }
         }
     }

@@ -24,20 +24,31 @@ class Application
 
     public static function start(_engine:Engine)
     {
+        var state:EngineState;
         engine = _engine;
 
         esm = new EngineStateMachine(engine);
 
-        var menuState = new EngineState();
-        menuState.addInstance(new MenuSystem());
-        esm.addState("Menu", menuState);
+        state = new EngineState();
+        state.addInstance(new MenuSystem());
+        esm.addState("menu", state);
 
-        var gameState = new EngineState();
-        gameState.addInstance(new GameSystem());
-        gameState.addInstance(new TileMovementSystem());
-        esm.addState("Game", gameState);
+        var gameSystem = new GameSystem();
 
-        esm.changeState("Menu");
+        state = new EngineState();
+        state.addInstance(gameSystem);
+        state.addInstance(new TileMovementSystem());
+        esm.addState("gameFalling", state);
+
+        state = new EngineState();
+        state.addInstance(gameSystem);
+        esm.addState("gameIdling", state);
+
+        state = new EngineState();
+        state.addInstance(gameSystem);
+        esm.addState("gameRotating", state);
+
+        esm.changeState("menu");
 
         pages = UIPages.createSet(new JQuery("#body"));
 

@@ -67,6 +67,8 @@ class GameSystem extends System
                 e.get(TileMovement).to =  new Vector2(offset.x + i * 64, offset.y + j * 64);
                 e.get(TileMovement).duration = 1;
                 e.get(TileMovement).time = 0;
+                e.get(TileMovement).fromAngle = 0;
+                e.get(TileMovement).toAngle = 180;
             }
         }
     }

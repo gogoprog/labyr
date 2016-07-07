@@ -27,6 +27,12 @@ class Application
         var state:EngineState;
         engine = _engine;
 
+        var cameraEntity = new Entity();
+        cameraEntity.add(new Camera());
+        cameraEntity.get(Camera).setOrthoSize(new Vector2(1024, 768));
+        cameraEntity.get(Camera).setOrthographic(true);
+        engine.addEntity(cameraEntity);
+
         esm = new EngineStateMachine(engine);
 
         state = new EngineState();
@@ -42,6 +48,7 @@ class Application
 
         state = new EngineState();
         state.addInstance(gameSystem);
+        state.addInstance(new InputSystem(cameraEntity));
         esm.addState("gameIdling", state);
 
         state = new EngineState();

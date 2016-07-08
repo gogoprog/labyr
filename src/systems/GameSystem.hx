@@ -53,18 +53,19 @@ class GameSystem extends System
 
     private function newGrid()
     {
-        var offset = new Vector2(-5 * 64 + 32, -5 * 64 + 32);
+        var offset = GridConfig.offset;
 
-        for(i in 0...10)
+        for(i in 0...GridConfig.width)
         {
-            for(j in 0...10)
+            for(j in 0...GridConfig.height)
             {
                 var e = createItem();
                 engine.addEntity(e);
 
                 e.get(Tile).sm.changeState("moving");
-                e.get(TileMovement).from = new Vector2(offset.x + i * 64, offset.y + j * 64 + 10 * 64);
-                e.get(TileMovement).to =  new Vector2(offset.x + i * 64, offset.y + j * 64);
+                e.get(Tile).position = new IntVector2(i, j);
+                e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + j * GridConfig.tileSize + 10 * GridConfig.tileSize);
+                e.get(TileMovement).to =  new Vector2(offset.x + i * GridConfig.tileSize, offset.y + j * GridConfig.tileSize);
                 e.get(TileMovement).duration = 1;
                 e.get(TileMovement).time = 0;
                 e.get(TileMovement).fromAngle = 0;

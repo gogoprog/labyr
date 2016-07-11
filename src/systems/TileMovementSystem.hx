@@ -41,6 +41,17 @@ class TileMovementSystem extends ListIteratingSystem<TileMovementNode>
             {
                 node.entity.position = new Vector3(to.x, to.y, 0);
             }
+
+            while(toAngle < 0)
+            {
+                toAngle += 360;
+            }
+
+            while(toAngle >= 360)
+            {
+                toAngle -= 360;
+            }
+
             node.entity.setRotation2D(toAngle);
             node.tile.angle = toAngle;
             node.tile.sm.changeState("idle");
@@ -49,7 +60,7 @@ class TileMovementSystem extends ListIteratingSystem<TileMovementNode>
 
     private function onNodeAdded(node:TileMovementNode)
     {
-
+        node.tileMovement.time = 0;
     }
 
     private function onNodeRemoved(node:TileMovementNode)

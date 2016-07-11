@@ -72,8 +72,7 @@ class InputSystem extends System
 
                     tm.from = null;
                     tm.to = null;
-                    tm.duration = 0.4;
-                    tm.time = 0;
+                    tm.duration = 0.25;
                     tm.fromAngle = selectedTileNode.tile.angle;
                     tm.toAngle = tm.fromAngle - 90;
 

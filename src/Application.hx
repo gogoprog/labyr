@@ -40,10 +40,11 @@ class Application
         esm.addState("menu", state);
 
         var gameSystem = new GameSystem();
+        var tileMovementSystem = new TileMovementSystem();
 
         state = new EngineState();
         state.addInstance(gameSystem);
-        state.addInstance(new TileMovementSystem());
+        state.addInstance(tileMovementSystem);
         esm.addState("gameFalling", state);
 
         state = new EngineState();
@@ -53,6 +54,7 @@ class Application
 
         state = new EngineState();
         state.addInstance(gameSystem);
+        state.addInstance(tileMovementSystem);
         esm.addState("gameRotating", state);
 
         esm.changeState("menu");

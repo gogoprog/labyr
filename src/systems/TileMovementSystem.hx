@@ -24,18 +24,25 @@ class TileMovementSystem extends ListIteratingSystem<TileMovementNode>
 
         var factor = tm.time / tm.duration;
 
-        node.entity.position = new Vector3(
-            from.x + (to.x - from.x) * easeIn(factor),
-            from.y + (to.y - from.y) * easeIn(factor),
-            0
-            );
+        if(from != null)
+        {
+            node.entity.position = new Vector3(
+                from.x + (to.x - from.x) * easeIn(factor),
+                from.y + (to.y - from.y) * easeIn(factor),
+                0
+                );
+        }
 
         node.entity.setRotation2D(fromAngle + (toAngle - fromAngle) * easeIn(factor));
 
         if(factor > 1)
         {
-            node.entity.position = new Vector3(to.x, to.y, 0);
+            if(from != null)
+            {
+                node.entity.position = new Vector3(to.x, to.y, 0);
+            }
             node.entity.setRotation2D(toAngle);
+            node.tile.angle = toAngle;
             node.tile.sm.changeState("idle");
         }
     }

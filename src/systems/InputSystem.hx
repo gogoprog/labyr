@@ -63,6 +63,22 @@ class InputSystem extends System
             {
                 selectedTileNode = grid[p.x][p.y];
                 selectedTileNode.sprite.setAlpha(0.5);
+
+                if(input.getMouseButtonPress(1))
+                {
+                    selectedTileNode.tile.sm.changeState("moving");
+
+                    var tm:TileMovement = selectedTileNode.entity.get(TileMovement);
+
+                    tm.from = null;
+                    tm.to = null;
+                    tm.duration = 0.4;
+                    tm.time = 0;
+                    tm.fromAngle = selectedTileNode.tile.angle;
+                    tm.toAngle = tm.fromAngle - 90;
+
+                    Application.esm.changeState("gameRotating");
+                }
             }
         }
     }

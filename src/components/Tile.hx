@@ -9,6 +9,7 @@ enum TileType
     L;
     I;
 }
+
 class Tile
 {
     public var position:IntVector2 = new IntVector2(0, 0);
@@ -18,6 +19,5 @@ class Tile
 
     public function new()
     {
-
     }
 }

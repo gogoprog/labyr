@@ -50,6 +50,8 @@ class Application
         state = new EngineState();
         state.addInstance(gameSystem);
         state.addInstance(new InputSystem(cameraEntity));
+        state.addInstance(new MatchSystem());
+
         esm.addState("gameIdling", state);
 
         state = new EngineState();

@@ -33,7 +33,10 @@ class TileMovementSystem extends ListIteratingSystem<TileMovementNode>
                 );
         }
 
-        node.entity.setRotation2D(fromAngle + (toAngle - fromAngle) * easeIn(factor));
+        if(toAngle != null)
+        {
+            node.entity.setRotation2D(fromAngle + (toAngle - fromAngle) * easeIn(factor));
+        }
 
         if(factor > 1)
         {
@@ -42,18 +45,22 @@ class TileMovementSystem extends ListIteratingSystem<TileMovementNode>
                 node.entity.position = new Vector3(to.x, to.y, 0);
             }
 
-            while(toAngle < 0)
+            if(toAngle != null)
             {
-                toAngle += 360;
+                while(toAngle < 0)
+                {
+                    toAngle += 360;
+                }
+
+                while(toAngle >= 360)
+                {
+                    toAngle -= 360;
+                }
+
+                node.entity.setRotation2D(toAngle);
+                node.tile.angle = toAngle;
             }
 
-            while(toAngle >= 360)
-            {
-                toAngle -= 360;
-            }
-
-            node.entity.setRotation2D(toAngle);
-            node.tile.angle = toAngle;
             node.tile.sm.changeState("idle");
         }
     }

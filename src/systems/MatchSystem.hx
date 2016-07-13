@@ -44,15 +44,53 @@ class MatchSystem extends System
             var p = node.tile.position;
             grid[p.x][p.y] = node;
         }
+
+        findMatches();
+    }
+
+    private function findMatches()
+    {
+        for(x in 0...GridConfig.width)
+        {
+            for(y in 0...GridConfig.height)
+            {
+                
+            }
+        }
     }
 
     private inline function areTilesConnected(first:Tile, second:Tile)
     {
         var p1 = first.position;
         var p2 = second.position;
+
+        if(p1.x == p2.x)
+        {
+            if(p2.y - p1.y == 1)
+            {
+                return isDirectionOpen(first, 0) && isDirectionOpen(second, 2);
+            }
+            else if(p1.y - p2.y == 1)
+            {
+                return isDirectionOpen(first, 2) && isDirectionOpen(second, 0);
+            }
+        }
+        else if(p1.y == p2.y)
+        {
+            if(p2.x - p1.x == 1)
+            {
+                return isDirectionOpen(first, 1) && isDirectionOpen(second, 3);
+            }
+            else if(p1.x - p2.x == 1)
+            {
+                return isDirectionOpen(first, 3) && isDirectionOpen(second, 1);
+            }
+        }
+
+        return false;
     }
 
-    private inline function getDirectionState(tile:Tile, direction:Int)
+    private inline function isDirectionOpen(tile:Tile, direction:Int)
     {
         direction += Std.int(tile.angle / 90);
 

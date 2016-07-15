@@ -54,7 +54,10 @@ class GameSystem extends System
             textureName = "tile1.png";
         }
 
+        var hs = GridConfig.tileSize / 2;
+
         e.get(StaticSprite2D).setSprite(Gengine.getResourceCache().getSprite2D(textureName, true));
+        e.get(StaticSprite2D).setDrawRect(new Rect(new Vector2(-hs, -hs), new Vector2(hs, hs)));
 
         e.get(Tile).sm = sm;
         e.get(Tile).type = ttype;

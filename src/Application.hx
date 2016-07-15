@@ -27,6 +27,8 @@ class Application
         var state:EngineState;
         engine = _engine;
 
+        Gengine.getRenderer().getDefaultZone().setFogColor(new Color(1,1,1,1));
+
         var cameraEntity = new Entity();
         cameraEntity.add(new Camera());
         cameraEntity.get(Camera).setOrthoSize(new Vector2(1024, 768));

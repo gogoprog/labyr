@@ -54,7 +54,9 @@ class MatchSystem extends System
         {
             for(y in 0...GridConfig.height)
             {
-                
+                var tn = grid[x][y];
+                tn.sprite.setColor(new Color(1.0,1.0,1.0,1.0));
+                findPath(tn, [tn => true]);
             }
         }
     }
@@ -105,5 +107,84 @@ class MatchSystem extends System
         }
 
         return connections[tile.type][direction];
+    }
+
+    private inline function isTile(p:IntVector2)
+    {
+        return p.x >= 0 && p.y >= 0 && p.x < GridConfig.width && p.y < GridConfig.height;
+    }
+
+    private function getConnectedTileNode(tileNode:TileNode, direction:Int):TileNode
+    {
+        var p = tileNode.tile.position;
+        var p2:IntVector2;
+
+        if(isDirectionOpen(tileNode.tile, direction))
+        {
+            switch(direction)
+            {
+                case 0:
+                    p2 = new IntVector2(p.x, p.y + 1);
+                case 1:
+                    p2 = new IntVector2(p.x + 1, p.y);
+                case 2:
+                    p2 = new IntVector2(p.x, p.y - 1);
+                case 3:
+                    p2 = new IntVector2(p.x - 1, p.y);
+                default:
+                    p2 = new IntVector2(666, 666);
+            }
+
+            if(isTile(p2))
+            {
+                var tileNode2 = grid[p2.x][p2.y];
+
+                if(isDirectionOpen(tileNode2.tile, (direction + 2) % 4))
+                {
+                    return tileNode2;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private function findPath(tileNode:TileNode, path:Map<TileNode, Bool>)
+    {
+        var otherTileNode:TileNode;
+
+        for(d in 0...4)
+        {
+            otherTileNode = getConnectedTileNode(tileNode, d);
+
+            if(otherTileNode != null)
+            {
+                if(!path.exists(otherTileNode))
+                {
+                    var otherPath = new Map<TileNode, Bool>();
+                    var count = 0;
+                    for(k in path.keys())
+                    {
+                        otherPath[k] = path[k];
+                        ++count;
+                    }
+
+                    otherPath[otherTileNode] = true;
+                    ++count;
+
+                    if(count > 2)
+                    {
+                        for(tile in path.keys())
+                        {
+                            tile.sprite.setColor(new Color(0.0,0.0,1.0,1.0));
+
+                        }
+                        trace("Bigger than 2");
+                    }
+
+                    findPath(otherTileNode, otherPath);
+                }
+            }
+        }
     }
 }

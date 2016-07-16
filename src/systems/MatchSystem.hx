@@ -15,6 +15,7 @@ class MatchSystem extends System
     private var engine:Engine;
     private var grid:Vector<Vector<TileNode>>;
     private var connections:Map<TileType, Array<Bool>>;
+    private var matches:Map<TileNode, Bool>;
 
     public function new()
     {
@@ -48,8 +49,15 @@ class MatchSystem extends System
         findMatches();
     }
 
+    override public function update(dt:Float)
+    {
+        Application.esm.changeState("gameIdling");
+    }
+
     private function findMatches()
     {
+        matches = new Map<TileNode, Bool>();
+
         for(x in 0...GridConfig.width)
         {
             for(y in 0...GridConfig.height)
@@ -58,6 +66,13 @@ class MatchSystem extends System
                 tn.sprite.setColor(new Color(1.0,1.0,1.0,1.0));
                 findPath(tn, [tn => true]);
             }
+        }
+
+        var count = [for (k in matches.keys()) k].length;
+
+        for(tileNode in matches.keys())
+        {
+            tileNode.sprite.setColor(new Color(0.0,0.0,1.0,1.0));
         }
     }
 
@@ -152,6 +167,7 @@ class MatchSystem extends System
     private function findPath(tileNode:TileNode, path:Map<TileNode, Bool>)
     {
         var otherTileNode:TileNode;
+        var finished = true;
 
         for(d in 0...4)
         {
@@ -162,27 +178,28 @@ class MatchSystem extends System
                 if(!path.exists(otherTileNode))
                 {
                     var otherPath = new Map<TileNode, Bool>();
-                    var count = 0;
                     for(k in path.keys())
                     {
                         otherPath[k] = path[k];
-                        ++count;
                     }
 
                     otherPath[otherTileNode] = true;
-                    ++count;
-
-                    if(count > 2)
-                    {
-                        for(tile in path.keys())
-                        {
-                            tile.sprite.setColor(new Color(0.0,0.0,1.0,1.0));
-
-                        }
-                        trace("Bigger than 2");
-                    }
 
                     findPath(otherTileNode, otherPath);
+                    finished = false;
+                }
+            }
+        }
+
+        if(finished)
+        {
+            var count = [for (k in path.keys()) k].length;
+
+            if(count > 2)
+            {
+                for(tileNode in path.keys())
+                {
+                    matches[tileNode] = true;
                 }
             }
         }

@@ -74,7 +74,7 @@ class TileMovementSystem extends ListIteratingSystem<TileMovementNode>
     {
         if(nodeList.empty)
         {
-            Application.esm.changeState("gameIdling");
+            Application.esm.changeState("gameMatching");
         }
     }
 

@@ -39,6 +39,8 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode>
 
     override public function addToEngine(_engine:Engine)
     {
+        super.addToEngine(_engine);
+
         engine = _engine;
         var list = engine.getNodeList(TileNode);
 
@@ -53,10 +55,13 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode>
 
     override public function removeFromEngine(_engine:Engine)
     {
+        super.removeFromEngine(_engine);
     }
 
     override public function update(dt:Float)
     {
+        super.update(dt);
+
         if(count == 0)
         {
             Application.esm.changeState("gameIdling");
@@ -217,10 +222,19 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode>
 
     private function updateNode(tdn:TileDisappearingNode, dt:Float)
     {
+        tdn.tileDisappearing.time += dt;
+
+        tdn.sprite.setAlpha(1.0 - tdn.tileDisappearing.time);
+
+        if(tdn.tileDisappearing.time > 1)
+        {
+            engine.removeEntity(tdn.entity);
+        }
     }
 
     private function onNodeAdded(tdn:TileDisappearingNode)
     {
+        tdn.tileDisappearing.time = 0;
     }
 
     private function onNodeRemoved(tdn:TileDisappearingNode)

@@ -39,6 +39,8 @@ class InputSystem extends System
             var p = node.tile.position;
             grid[p.x][p.y] = node;
         }
+
+        selectedTileNode = null;
     }
 
     override public function update(dt:Float):Void

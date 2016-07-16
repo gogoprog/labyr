@@ -33,48 +33,6 @@ class GameSystem extends System
         }
     }
 
-    private function createItem(type:Int, angle:Float)
-    {
-        var e = new Entity();
-        var sm = new EntityStateMachine(e);
-        var ttype = TileType.createByIndex(type);
-
-        e.add(new Tile());
-        e.add(new StaticSprite2D());
-
-        var textureName:String;
-
-        switch (ttype) {
-        case EMPTY:
-            textureName = "tile0.png";
-        case L:
-            textureName = "tile2.png";
-        case I:
-            textureName = "tile1.png";
-        }
-
-        var hs = GridConfig.tileSize / 2;
-
-        e.get(StaticSprite2D).setSprite(Gengine.getResourceCache().getSprite2D(textureName, true));
-        e.get(StaticSprite2D).setDrawRect(new Rect(new Vector2(-hs, -hs), new Vector2(hs, hs)));
-
-        e.get(Tile).sm = sm;
-        e.get(Tile).type = ttype;
-        e.get(Tile).angle = angle;
-
-        e.setRotation2D(angle);
-
-        sm.createState("idle");
-
-        sm.createState("moving")
-            .add(TileMovement).withInstance(new TileMovement());
-
-        sm.createState("disappearing")
-            .add(TileDisappearing).withInstance(new TileDisappearing());
-
-        return e;
-    }
-
     private function newGrid()
     {
         var offset = GridConfig.offset;
@@ -83,7 +41,7 @@ class GameSystem extends System
         {
             for(j in 0...GridConfig.height)
             {
-                var e = createItem(Std.random(3), Std.random(4) * 90);
+                var e = Factory.createItem(Std.random(3), Std.random(4) * 90);
                 engine.addEntity(e);
 
                 e.get(Tile).sm.changeState("moving");

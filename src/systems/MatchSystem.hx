@@ -193,6 +193,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode>
                 if(!path.exists(otherTileNode))
                 {
                     var otherPath = new Map<TileNode, Bool>();
+
                     for(k in path.keys())
                     {
                         otherPath[k] = path[k];
@@ -239,9 +240,53 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode>
 
     private function onNodeRemoved(tdn:TileDisappearingNode)
     {
+        var p = tdn.tile.position;
+        grid[p.x][p.y] = null;
+
         if(engine.getNodeList(TileDisappearingNode).empty)
         {
-            Application.esm.changeState("gameIdling");
+            var offset = GridConfig.offset;
+
+            for(i in 0...GridConfig.width)
+            {
+                var holes = 0;
+
+                for(j in 0...GridConfig.height)
+                {
+                    if(grid[i][j] == null)
+                    {
+                        holes++;
+                    }
+                    else
+                    {
+                        var e = grid[i][j].entity;
+
+                        e.get(Tile).sm.changeState("moving");
+                        e.get(Tile).position = new IntVector2(i, j - holes);
+                        e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + j * GridConfig.tileSize);
+                        e.get(TileMovement).to = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (j - holes) * GridConfig.tileSize);
+                        e.get(TileMovement).duration = 0.2 * holes;
+                        e.get(TileMovement).fromAngle = e.get(Tile).angle;
+                        e.get(TileMovement).toAngle = e.get(Tile).angle;
+                    }
+                }
+
+                for(h in 0...holes)
+                {
+                    var e = Factory.createItem(Std.random(3), Std.random(4) * 90);
+                    engine.addEntity(e);
+
+                    e.get(Tile).sm.changeState("moving");
+                    e.get(Tile).position = new IntVector2(i, GridConfig.height - holes + h);
+                    e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + h ) * GridConfig.tileSize);
+                    e.get(TileMovement).to = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height - holes + h) * GridConfig.tileSize);
+                    e.get(TileMovement).duration = 0.2 * holes;
+                    e.get(TileMovement).fromAngle = e.get(Tile).angle;
+                    e.get(TileMovement).toAngle = e.get(Tile).angle;
+                }
+            }
+
+            Application.esm.changeState("gameFalling");
         }
     }
 }

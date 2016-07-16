@@ -9,17 +9,19 @@ import nodes.*;
 import gengine.math.*;
 import haxe.ds.Vector;
 import components.Tile.TileType;
+import ash.tools.ListIteratingSystem;
 
-class MatchSystem extends System
+class MatchSystem extends ListIteratingSystem<TileDisappearingNode>
 {
     private var engine:Engine;
     private var grid:Vector<Vector<TileNode>>;
     private var connections:Map<TileType, Array<Bool>>;
     private var matches:Map<TileNode, Bool>;
+    private var count:Int;
 
     public function new()
     {
-        super();
+        super(TileDisappearingNode, updateNode, onNodeAdded, onNodeRemoved);
 
         grid = new Vector<Vector<TileNode>>(GridConfig.width);
 
@@ -49,9 +51,16 @@ class MatchSystem extends System
         findMatches();
     }
 
+    override public function removeFromEngine(_engine:Engine)
+    {
+    }
+
     override public function update(dt:Float)
     {
-        Application.esm.changeState("gameIdling");
+        if(count == 0)
+        {
+            Application.esm.changeState("gameIdling");
+        }
     }
 
     private function findMatches()
@@ -68,11 +77,12 @@ class MatchSystem extends System
             }
         }
 
-        var count = [for (k in matches.keys()) k].length;
+        count = [for (k in matches.keys()) k].length;
 
         for(tileNode in matches.keys())
         {
             tileNode.sprite.setColor(new Color(0.0,0.0,1.0,1.0));
+            tileNode.tile.sm.changeState("disappearing");
         }
     }
 
@@ -202,6 +212,22 @@ class MatchSystem extends System
                     matches[tileNode] = true;
                 }
             }
+        }
+    }
+
+    private function updateNode(tdn:TileDisappearingNode, dt:Float)
+    {
+    }
+
+    private function onNodeAdded(tdn:TileDisappearingNode)
+    {
+    }
+
+    private function onNodeRemoved(tdn:TileDisappearingNode)
+    {
+        if(engine.getNodeList(TileDisappearingNode).empty)
+        {
+            Application.esm.changeState("gameIdling");
         }
     }
 }

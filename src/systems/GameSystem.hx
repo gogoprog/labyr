@@ -8,7 +8,6 @@ import components.*;
 import gengine.math.*;
 import components.Tile.TileType;
 
-
 class GameSystem extends System
 {
     private var engine:Engine;
@@ -69,6 +68,9 @@ class GameSystem extends System
 
         sm.createState("moving")
             .add(TileMovement).withInstance(new TileMovement());
+
+        sm.createState("disappearing")
+            .add(TileDisappearing).withInstance(new TileDisappearing());
 
         return e;
     }

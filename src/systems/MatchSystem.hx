@@ -225,9 +225,9 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode>
     {
         tdn.tileDisappearing.time += dt;
 
-        tdn.sprite.setAlpha(1.0 - tdn.tileDisappearing.time);
+        tdn.sprite.setAlpha(1.0 - tdn.tileDisappearing.time * 2);
 
-        if(tdn.tileDisappearing.time > 1)
+        if(tdn.tileDisappearing.time > 0.5)
         {
             engine.removeEntity(tdn.entity);
         }

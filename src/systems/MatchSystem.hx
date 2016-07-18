@@ -243,6 +243,8 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode>
         var p = tdn.tile.position;
         grid[p.x][p.y] = null;
 
+        Factory.onItemRemoved(tdn.entity);
+
         if(engine.getNodeList(TileDisappearingNode).empty)
         {
             var offset = GridConfig.offset;

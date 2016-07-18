@@ -8,14 +8,44 @@ import components.Tile.TileType;
 
 class Factory
 {
+    static private var pool:Array<Entity> = new Array<Entity>();
+
+    static public function init()
+    {
+        for(i in 0...(GridConfig.width * GridConfig.height))
+        {
+            var e = new Entity();
+            var sm = new EntityStateMachine(e);
+
+            e.add(new Tile());
+            e.add(new StaticSprite2D());
+
+            var hs = GridConfig.tileSize / 2;
+
+            e.get(StaticSprite2D).setDrawRect(new Rect(new Vector2(-hs, -hs), new Vector2(hs, hs)));
+            e.get(Tile).sm = sm;
+
+            sm.createState("idle");
+
+            sm.createState("moving")
+                .add(TileMovement).withInstance(new TileMovement());
+
+            sm.createState("disappearing")
+                .add(TileDisappearing).withInstance(new TileDisappearing());
+
+            pool.push(e);
+        }
+    }
+
+    static public function onItemRemoved(e:Entity)
+    {
+        pool.push(e);
+    }
+
     static public function createItem(type:Int, angle:Float)
     {
-        var e = new Entity();
-        var sm = new EntityStateMachine(e);
+        var e = pool.pop();
         var ttype = TileType.createByIndex(type);
-
-        e.add(new Tile());
-        e.add(new StaticSprite2D());
 
         var textureName:String;
 
@@ -28,24 +58,11 @@ class Factory
             textureName = "tile1.png";
         }
 
-        var hs = GridConfig.tileSize / 2;
-
         e.get(StaticSprite2D).setSprite(Gengine.getResourceCache().getSprite2D(textureName, true));
-        e.get(StaticSprite2D).setDrawRect(new Rect(new Vector2(-hs, -hs), new Vector2(hs, hs)));
-
-        e.get(Tile).sm = sm;
         e.get(Tile).type = ttype;
         e.get(Tile).angle = angle;
 
         e.setRotation2D(angle);
-
-        sm.createState("idle");
-
-        sm.createState("moving")
-            .add(TileMovement).withInstance(new TileMovement());
-
-        sm.createState("disappearing")
-            .add(TileDisappearing).withInstance(new TileDisappearing());
 
         return e;
     }

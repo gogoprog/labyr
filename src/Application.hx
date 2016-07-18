@@ -69,5 +69,7 @@ class Application
         pages = UIPages.createSet(new JQuery("#body"));
 
         pages.showPage(".menu");
+
+        Factory.init();
     }
 }

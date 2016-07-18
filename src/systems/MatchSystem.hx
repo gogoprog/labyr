@@ -18,6 +18,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode>
     private var connections:Map<TileType, Array<Bool>>;
     private var matches:Map<TileNode, Bool>;
     private var count:Int;
+    private var itMustRepopulate = false;
 
     public function new()
     {
@@ -65,6 +66,56 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode>
         if(count == 0)
         {
             Application.esm.changeState("gameIdling");
+        }
+
+        if(itMustRepopulate)
+        {
+            var offset = GridConfig.offset;
+
+            for(i in 0...GridConfig.width)
+            {
+                var holes = 0;
+
+                for(j in 0...GridConfig.height)
+                {
+                    if(grid[i][j] == null)
+                    {
+                        holes++;
+                    }
+                    else
+                    {
+                        var e = grid[i][j].entity;
+
+                        e.get(Tile).sm.changeState("moving");
+                        e.get(Tile).position = new IntVector2(i, j - holes);
+                        e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + j * GridConfig.tileSize);
+                        e.get(TileMovement).to = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (j - holes) * GridConfig.tileSize);
+                        e.get(TileMovement).duration = 0.2 * holes;
+                        e.get(TileMovement).fromAngle = e.get(Tile).angle;
+                        e.get(TileMovement).toAngle = e.get(Tile).angle;
+                    }
+                }
+
+                for(h in 0...holes)
+                {
+                    var e = Factory.createItem(Std.random(2) + 1, Std.random(4) * 90);
+
+                    e.get(Tile).sm.changeState("moving");
+                    e.get(Tile).position = new IntVector2(i, GridConfig.height - holes + h);
+                    e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + h ) * GridConfig.tileSize);
+                    e.get(TileMovement).to = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height - holes + h) * GridConfig.tileSize);
+                    e.get(TileMovement).duration = 0.2 * holes;
+                    e.get(TileMovement).fromAngle = e.get(Tile).angle;
+                    e.get(TileMovement).toAngle = e.get(Tile).angle;
+
+                    e.position = new Vector3(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + h ) * GridConfig.tileSize, 0);
+
+                    engine.addEntity(e);
+                }
+            }
+
+            Application.esm.changeState("gameFalling");
+            itMustRepopulate = false;
         }
     }
 
@@ -247,48 +298,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode>
 
         if(engine.getNodeList(TileDisappearingNode).empty)
         {
-            var offset = GridConfig.offset;
-
-            for(i in 0...GridConfig.width)
-            {
-                var holes = 0;
-
-                for(j in 0...GridConfig.height)
-                {
-                    if(grid[i][j] == null)
-                    {
-                        holes++;
-                    }
-                    else
-                    {
-                        var e = grid[i][j].entity;
-
-                        e.get(Tile).sm.changeState("moving");
-                        e.get(Tile).position = new IntVector2(i, j - holes);
-                        e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + j * GridConfig.tileSize);
-                        e.get(TileMovement).to = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (j - holes) * GridConfig.tileSize);
-                        e.get(TileMovement).duration = 0.2 * holes;
-                        e.get(TileMovement).fromAngle = e.get(Tile).angle;
-                        e.get(TileMovement).toAngle = e.get(Tile).angle;
-                    }
-                }
-
-                for(h in 0...holes)
-                {
-                    var e = Factory.createItem(Std.random(2) + 1, Std.random(4) * 90);
-                    engine.addEntity(e);
-
-                    e.get(Tile).sm.changeState("moving");
-                    e.get(Tile).position = new IntVector2(i, GridConfig.height - holes + h);
-                    e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + h ) * GridConfig.tileSize);
-                    e.get(TileMovement).to = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height - holes + h) * GridConfig.tileSize);
-                    e.get(TileMovement).duration = 0.2 * holes;
-                    e.get(TileMovement).fromAngle = e.get(Tile).angle;
-                    e.get(TileMovement).toAngle = e.get(Tile).angle;
-                }
-            }
-
-            Application.esm.changeState("gameFalling");
+            itMustRepopulate = true;
         }
     }
 }

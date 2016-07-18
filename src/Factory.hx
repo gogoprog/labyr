@@ -58,6 +58,7 @@ class Factory
             textureName = "tile1.png";
         }
 
+        e.get(StaticSprite2D).setColor(new Color(1, 1, 1, 1));
         e.get(StaticSprite2D).setSprite(Gengine.getResourceCache().getSprite2D(textureName, true));
         e.get(Tile).type = ttype;
         e.get(Tile).angle = angle;

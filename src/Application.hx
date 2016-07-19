@@ -71,5 +71,23 @@ class Application
         pages.showPage(".menu");
 
         Factory.init();
+
+        var border:Entity;
+
+        border = Factory.createBorder(new IntVector2(200, 800));
+        border.position = new Vector3(-420,0,0);
+        engine.addEntity(border);
+
+        border = Factory.createBorder(new IntVector2(200, 800));
+        border.position = new Vector3(420,0,0);
+        engine.addEntity(border);
+
+        border = Factory.createBorder(new IntVector2(640, 160));
+        border.position = new Vector3(0,400,0);
+        engine.addEntity(border);
+
+        border = Factory.createBorder(new IntVector2(640, 160));
+        border.position = new Vector3(0,-400,0);
+        engine.addEntity(border);
     }
 }

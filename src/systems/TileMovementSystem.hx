@@ -80,6 +80,6 @@ class TileMovementSystem extends ListIteratingSystem<TileMovementNode>
 
     static function easeIn(f:Float)
     {
-        return Math.sin(f * Math.PI * 0.5);
+        return 1.0 - Math.cos(f * Math.PI * 0.5);
     };
 }

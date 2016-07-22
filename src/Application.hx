@@ -27,7 +27,7 @@ class Application
         var state:EngineState;
         engine = _engine;
 
-        Gengine.getRenderer().getDefaultZone().setFogColor(new Color(1,1,1,1));
+        Gengine.getRenderer().getDefaultZone().setFogColor(new Color(0.8,0.9,0.8,1));
 
         var cameraEntity = new Entity();
         cameraEntity.add(new Camera());

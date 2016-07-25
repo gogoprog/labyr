@@ -66,10 +66,6 @@ class Application
 
         esm.changeState("menu");
 
-        pages = UIPages.createSet(new JQuery("#body"));
-
-        pages.showPage(".menu");
-
         Factory.init();
 
         var border:Entity;
@@ -89,5 +85,14 @@ class Application
         border = Factory.createBorder(new IntVector2(640, 160));
         border.position = new Vector3(0,-400,0);
         engine.addEntity(border);
+    }
+
+    public static function onGuiLoaded()
+    {
+        pages = UIPages.createSet(new JQuery("#body"));
+
+        pages.showPage(".menu");
+
+        engine.getSystem(MenuSystem).init();
     }
 }

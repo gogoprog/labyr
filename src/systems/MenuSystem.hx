@@ -12,7 +12,6 @@ class MenuSystem extends System
     public function new()
     {
         super();
-        init();
     }
 
     public function init()

@@ -90,7 +90,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode>
                         e.get(Tile).position = new IntVector2(i, j - holes);
                         e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + j * GridConfig.tileSize);
                         e.get(TileMovement).to = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (j - holes) * GridConfig.tileSize);
-                        e.get(TileMovement).duration = 0.2 * holes;
+                        e.get(TileMovement).duration = 0.02 * holes;
                         e.get(TileMovement).fromAngle = e.get(Tile).angle;
                         e.get(TileMovement).toAngle = e.get(Tile).angle;
                     }
@@ -104,7 +104,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode>
                     e.get(Tile).position = new IntVector2(i, GridConfig.height - holes + h);
                     e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + h ) * GridConfig.tileSize);
                     e.get(TileMovement).to = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height - holes + h) * GridConfig.tileSize);
-                    e.get(TileMovement).duration = 0.2 * holes;
+                    e.get(TileMovement).duration = 0.02 * holes;
                     e.get(TileMovement).fromAngle = e.get(Tile).angle;
                     e.get(TileMovement).toAngle = e.get(Tile).angle;
 
@@ -276,7 +276,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode>
     {
         tdn.tileDisappearing.time += dt;
 
-        tdn.sprite.setAlpha(1.0 - tdn.tileDisappearing.time * 2);
+        tdn.sprite.setAlpha(1.0 - tdn.tileDisappearing.time * 6);
 
         if(tdn.tileDisappearing.time > 0.5)
         {

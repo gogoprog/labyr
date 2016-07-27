@@ -4,3 +4,4 @@
 -main gengine.Main
 -js ./generated/main.js
 -lib jquery-uipages
+-lib Pathfinder

@@ -10,9 +10,13 @@ import gengine.math.*;
 import haxe.ds.Vector;
 import components.Tile.TileType;
 import ash.tools.ListIteratingSystem;
+import pathfinder.*;
 
-class MatchSystem extends ListIteratingSystem<TileDisappearingNode>
+class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements IMap
 {
+    public var cols = GridConfig.width;
+    public var rows = GridConfig.height;
+
     private var engine:Engine;
     private var grid:Vector<Vector<TileNode>>;
     private var connections:Map<TileType, Array<Bool>>;
@@ -117,6 +121,11 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode>
             Application.esm.changeState("gameFalling");
             itMustRepopulate = false;
         }
+    }
+
+    public function isWalkable(x:Int, y:Int):Bool
+    {
+        return grid[x][y].tile.matching;
     }
 
     private function findMatches()

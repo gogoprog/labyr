@@ -2,7 +2,7 @@ package systems;
 
 import gengine.*;
 import ash.systems.*;
-import js.*;
+import js.jquery.JQuery;
 
 @:expose('Menu')
 class MenuSystem extends System
@@ -36,7 +36,7 @@ class MenuSystem extends System
         }
     }
 
-    private function onStartClick()
+    private function onStartClick(event)
     {
         trace("onStartClick");
 
@@ -44,7 +44,7 @@ class MenuSystem extends System
         Application.pages.showPage(".hud");
     }
 
-    private function onQuitClick()
+    private function onQuitClick(event)
     {
         trace("Labyr exit.");
         Gengine.exit();

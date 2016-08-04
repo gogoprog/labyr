@@ -6,7 +6,9 @@ import gengine.graphics.*;
 import ash.fsm.*;
 
 import systems.*;
-import js.*;
+import js.jquery.*;
+import js.UIPages;
+import js.PagesSet;
 
 class Application
 {

@@ -138,7 +138,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
             {
                 var tn = grid[x][y];
                 tn.sprite.setColor(new Color(1.0,1.0,1.0,1.0));
-                findPath(tn, [tn => true]);
+                findPath(tn, [tn => true], [tn], -1);
             }
         }
 
@@ -239,43 +239,43 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
         return null;
     }
 
-    private function findPath(tileNode:TileNode, path:Map<TileNode, Bool>)
+    private function findPath(tileNode:TileNode, path:Map<TileNode, Bool>, orderedPath:Array<TileNode>, previousDirection:Int)
     {
         var otherTileNode:TileNode;
-        var finished = true;
+        var finished = false;
 
         for(d in 0...4)
         {
-            otherTileNode = getConnectedTileNode(tileNode, d);
-
-            if(otherTileNode != null)
+            if(d != (previousDirection + 2) % 4)
             {
-                if(!path.exists(otherTileNode))
-                {
-                    var otherPath = new Map<TileNode, Bool>();
+                otherTileNode = getConnectedTileNode(tileNode, d);
 
-                    for(k in path.keys())
+                if(otherTileNode != null)
+                {
+                    if(!path.exists(otherTileNode))
                     {
-                        otherPath[k] = path[k];
+                        var otherPath = new Map<TileNode, Bool>();
+                        var otherOrderedPath = new Array<TileNode>();
+
+                        for(k in orderedPath)
+                        {
+                            otherPath[k] = path[k];
+                            otherOrderedPath.push(k);
+                        }
+
+                        otherPath[otherTileNode] = true;
+                        otherOrderedPath.push(otherTileNode);
+
+                        findPath(otherTileNode, otherPath, otherOrderedPath, d);
+                        finished = false;
                     }
-
-                    otherPath[otherTileNode] = true;
-
-                    findPath(otherTileNode, otherPath);
-                    finished = false;
-                }
-            }
-        }
-
-        if(finished)
-        {
-            var count = [for (k in path.keys()) k].length;
-
-            if(count > 2)
-            {
-                for(tileNode in path.keys())
-                {
-                    matches[tileNode] = true;
+                    else if(otherTileNode == orderedPath[0])
+                    {
+                        for(tileNode in path.keys())
+                        {
+                            matches[tileNode] = true;
+                        }
+                    }
                 }
             }
         }

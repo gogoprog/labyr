@@ -86,7 +86,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                     {
                         holes++;
                     }
-                    else
+                    else if(holes > 0)
                     {
                         var e = grid[i][j].entity;
 

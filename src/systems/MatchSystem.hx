@@ -114,6 +114,11 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
 
                     e.position = new Vector3(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + h ) * GridConfig.tileSize, 0);
 
+                    if(e.has(TileDisappearing))
+                    {
+                        untyped __js__("Error.stackTraceLimit = Infinity; var stack = new Error('e.has(TileDisappearing) == true').stack;  console.log( stack );");
+                    }
+
                     engine.addEntity(e);
                 }
             }
@@ -298,14 +303,12 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
     private function onNodeAdded(tdn:TileDisappearingNode)
     {
         tdn.tileDisappearing.time = 0;
-        trace("onNodeAdded " + tdn.tile.position.x + ", " + tdn.tile.position.y);
     }
 
     private function onNodeRemoved(tdn:TileDisappearingNode)
     {
         var p = tdn.tile.position;
         grid[p.x][p.y] = null;
-        trace("onNodeRemoved");
 
         Factory.onItemRemoved(tdn.entity);
 

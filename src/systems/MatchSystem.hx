@@ -102,7 +102,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
 
                 for(h in 0...holes)
                 {
-                    var e = Factory.createItem(Std.random(2) + 1, Std.random(4) * 90);
+                    var e = Factory.getItem(Std.random(2) + 1, Std.random(4) * 90);
 
                     e.get(Tile).sm.changeState("moving");
                     e.get(Tile).position = new IntVector2(i, GridConfig.height - holes + h);

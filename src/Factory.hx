@@ -14,27 +14,7 @@ class Factory
     {
         for(i in 0...(GridConfig.width * GridConfig.height))
         {
-            var e = new Entity();
-            var sm = new EntityStateMachine(e);
-
-            e.add(new Tile());
-            e.add(new StaticSprite2D());
-
-            var hs = GridConfig.tileSize / 2;
-
-            e.get(StaticSprite2D).setLayer(0);
-            e.get(StaticSprite2D).setDrawRect(new Rect(new Vector2(-hs, -hs), new Vector2(hs, hs)));
-            e.get(Tile).sm = sm;
-
-            sm.createState("idle");
-
-            sm.createState("moving")
-                .add(TileMovement).withInstance(new TileMovement());
-
-            sm.createState("disappearing")
-                .add(TileDisappearing).withInstance(new TileDisappearing());
-
-            pool.push(e);
+            pool.push(createItem());
         }
     }
 
@@ -43,9 +23,44 @@ class Factory
         pool.push(e);
     }
 
-    static public function createItem(type:Int, angle:Float)
+    static public function createItem():Entity
     {
-        var e = pool.pop();
+        var e = new Entity();
+        var sm = new EntityStateMachine(e);
+
+        e.add(new Tile());
+        e.add(new StaticSprite2D());
+
+        var hs = GridConfig.tileSize / 2;
+
+        e.get(StaticSprite2D).setLayer(0);
+        e.get(StaticSprite2D).setDrawRect(new Rect(new Vector2(-hs, -hs), new Vector2(hs, hs)));
+        e.get(Tile).sm = sm;
+
+        sm.createState("idle");
+
+        sm.createState("moving")
+            .add(TileMovement).withInstance(new TileMovement());
+
+        sm.createState("disappearing")
+            .add(TileDisappearing).withInstance(new TileDisappearing());
+
+        return e;
+    }
+
+    static public function getItem(type:Int, angle:Float)
+    {
+        var e:Entity;
+
+        if(pool.length > 0)
+        {
+            e = pool.pop();
+        }
+        else
+        {
+            e = createItem();
+        }
+
         var ttype = TileType.createByIndex(type);
 
         var textureName:String;

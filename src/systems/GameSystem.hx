@@ -41,7 +41,7 @@ class GameSystem extends System
         {
             for(j in 0...GridConfig.height)
             {
-                var e = Factory.createItem( /*Std.random(2) +*/ 1, Std.random(4) * 90);
+                var e = Factory.getItem( /*Std.random(2) +*/ 1, Std.random(4) * 90);
 
                 e.get(Tile).sm.changeState("moving");
                 e.get(Tile).position = new IntVector2(i, j);

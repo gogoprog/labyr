@@ -12,7 +12,7 @@ class Factory
 
     static public function init()
     {
-        for(i in 0...(GridConfig.width * GridConfig.height))
+        for(i in 0...(GridConfig.width * GridConfig.height * 2))
         {
             pool.push(createItem());
         }
@@ -54,7 +54,7 @@ class Factory
 
         if(pool.length > 0)
         {
-            e = pool.pop();
+            e = pool.shift();
         }
         else
         {

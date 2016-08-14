@@ -149,8 +149,6 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
 
         count = [for (k in matches.keys()) k].length;
 
-        trace("count " + count);
-
         for(tileNode in matches.keys())
         {
             tileNode.sprite.setColor(new Color(0.0,0.0,1.0,1.0));

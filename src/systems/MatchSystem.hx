@@ -131,12 +131,12 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
 
     public function isWalkable(x:Int, y:Int):Bool
     {
-        if(x == 0 || y == 0 || x == GridConfig.width + 1 || y == GridConfig.height)
+        if(x == 0 || y == 0 || x == GridConfig.width + 1 || y == GridConfig.height + 1)
         {
             return true;
         }
 
-        return grid[x - 1][y - 1].tile.matching;
+        return !grid[x - 1][y - 1].tile.matching;
     }
 
     private function findMatches()
@@ -159,6 +159,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
         {
             tileNode.sprite.setColor(new Color(0.0,0.0,1.0,1.0));
             tileNode.tile.sm.changeState("disappearing");
+            tileNode.tile.matching = true;
         }
 
         if(count > 0)
@@ -169,7 +170,28 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
             {
                 for(y in 0...GridConfig.height)
                 {
+                    var tn = grid[x][y];
+                    if(!tn.tile.matching)
+                    {
+                        var path = pathFinder.createPath(
+                            new Coordinate(x+1, y+1),
+                            new Coordinate(0, 0),
+                            EHeuristic.PRODUCT,
+                            false,
+                            false
+                            );
 
+                        if(path == null)
+                        {
+                            tn.sprite.setColor(new Color(1.0,0.0,1.0,1.0));
+                            tn.tile.sm.changeState("disappearing");
+                            tn.tile.matching = true;
+                        }
+                        else
+                        {
+
+                        }
+                    }
                 }
             }
         }

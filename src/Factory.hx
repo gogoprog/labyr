@@ -78,6 +78,7 @@ class Factory
         e.get(StaticSprite2D).setSprite(Gengine.getResourceCache().getSprite2D(textureName, true));
         e.get(Tile).type = ttype;
         e.get(Tile).angle = angle;
+        e.get(Tile).matching = false;
 
         e.setRotation2D(angle);
 

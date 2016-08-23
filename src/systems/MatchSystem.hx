@@ -72,9 +72,16 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
 
         for(i in 0...entitiesToRemove.length)
         {
-            entitiesToRemove[i].get(Tile).sm.changeState("idle");
-            engine.removeEntity(entitiesToRemove[i]);
-            Factory.onItemRemoved(entitiesToRemove[i]);
+            var e = entitiesToRemove[i];
+            e.get(Tile).sm.changeState("idle");
+
+            if(e.has(TileDisappearing))
+            {
+                untyped __js__("Error.stackTraceLimit = Infinity; var stack = new Error('e.has(TileDisappearing) == true').stack;  console.log( stack );");
+            }
+
+            engine.removeEntity(e);
+            Factory.onItemRemoved(e);
         }
 
         entitiesToRemove.splice(0, entitiesToRemove.length);

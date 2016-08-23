@@ -12,10 +12,10 @@ class Factory
 
     static public function init()
     {
-        for(i in 0...(GridConfig.width * GridConfig.height * 2))
+        /*for(i in 0...(GridConfig.width * GridConfig.height) * 2 )
         {
             pool.push(createItem());
-        }
+        }*/
     }
 
     static public function onItemRemoved(e:Entity)
@@ -38,6 +38,7 @@ class Factory
         e.get(Tile).sm = sm;
 
         sm.createState("idle");
+        sm.changeState("idle");
 
         sm.createState("moving")
             .add(TileMovement).withInstance(new TileMovement());

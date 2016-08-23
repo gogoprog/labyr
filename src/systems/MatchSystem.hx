@@ -25,6 +25,8 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
     private var itMustRepopulate = false;
     private var pathFinder:Pathfinder;
 
+    private var entitiesToRemove = new Array<Entity>();
+
     public function new()
     {
         super(TileDisappearingNode, updateNode, onNodeAdded, onNodeRemoved);
@@ -68,9 +70,19 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
     {
         super.update(dt);
 
+        for(i in 0...entitiesToRemove.length)
+        {
+            entitiesToRemove[i].get(Tile).sm.changeState("idle");
+            engine.removeEntity(entitiesToRemove[i]);
+            Factory.onItemRemoved(entitiesToRemove[i]);
+        }
+
+        entitiesToRemove.splice(0, entitiesToRemove.length);
+
         if(count == 0)
         {
             Application.esm.changeState("gameIdling");
+            return;
         }
 
         if(itMustRepopulate)
@@ -335,7 +347,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
 
         if(tdn.tileDisappearing.time > 0.5)
         {
-            engine.removeEntity(tdn.entity);
+            entitiesToRemove.push(tdn.entity);
         }
     }
 
@@ -348,8 +360,6 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
     {
         var p = tdn.tile.position;
         grid[p.x][p.y] = null;
-
-        Factory.onItemRemoved(tdn.entity);
 
         if(engine.getNodeList(TileDisappearingNode).empty)
         {

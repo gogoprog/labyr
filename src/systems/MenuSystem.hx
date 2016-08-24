@@ -38,7 +38,7 @@ class MenuSystem extends System
 
     private function onStartClick(event)
     {
-        Application.esm.changeState("gameFalling");
+        Application.changeState("gameFalling");
         Application.pages.showPage(".hud");
     }
 

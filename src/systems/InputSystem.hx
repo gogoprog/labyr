@@ -78,7 +78,7 @@ class InputSystem extends System
                     tm.fromAngle = selectedTileNode.tile.angle;
                     tm.toAngle = tm.fromAngle - 90;
 
-                    Application.esm.changeState("gameRotating");
+                    Application.changeState("gameRotating");
                 }
             }
         }

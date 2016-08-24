@@ -29,7 +29,7 @@ class GameSystem extends System
 
         if(input.getScancodePress(41))
         {
-            Application.esm.changeState("menu");
+            Application.changeState("menu");
         }
     }
 

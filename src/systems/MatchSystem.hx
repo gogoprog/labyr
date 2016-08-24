@@ -88,7 +88,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
 
         if(count == 0)
         {
-            Application.esm.changeState("gameIdling");
+            Application.changeState("gameIdling");
             return;
         }
 
@@ -143,7 +143,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                 }
             }
 
-            Application.esm.changeState("gameFalling");
+            Application.changeState("gameFalling");
             itMustRepopulate = false;
         }
     }

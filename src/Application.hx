@@ -12,8 +12,8 @@ import js.PagesSet;
 
 class Application
 {
-    public static var engine:Engine;
-    public static var esm:EngineStateMachine;
+    private static var engine:Engine;
+    private static var esm:EngineStateMachine;
     public static var pages:PagesSet;
 
     public static function init()
@@ -88,9 +88,7 @@ class Application
         border.position = new Vector3(0,-400,0);
         engine.addEntity(border);
 
-        engine.updateComplete.addOnce(function() {
-            esm.changeState("menu");
-            });
+        changeState("menu");
     }
 
     public static function onGuiLoaded()
@@ -100,5 +98,12 @@ class Application
         pages.showPage(".menu");
 
         engine.getSystem(MenuSystem).init();
+    }
+
+    public static function changeState(stateName)
+    {
+        engine.updateComplete.addOnce(function() {
+                esm.changeState(stateName);
+            });
     }
 }

@@ -12,7 +12,7 @@ import js.PagesSet;
 
 class Application
 {
-    private static var engine:Engine;
+    public static var engine:Engine;
     public static var esm:EngineStateMachine;
     public static var pages:PagesSet;
 
@@ -87,6 +87,10 @@ class Application
         border = Factory.createBorder(new IntVector2(640, 160));
         border.position = new Vector3(0,-400,0);
         engine.addEntity(border);
+
+        engine.updateComplete.addOnce(function() {
+            esm.changeState("menu");
+            });
     }
 
     public static function onGuiLoaded()

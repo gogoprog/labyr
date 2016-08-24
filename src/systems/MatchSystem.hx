@@ -77,7 +77,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
 
             if(e.has(TileDisappearing))
             {
-                untyped __js__("Error.stackTraceLimit = Infinity; var stack = new Error('e.has(TileDisappearing) == true').stack;  console.log( stack );");
+                untyped __js__("Error.stackTraceLimit = Infinity; var stack = new Error('e.has(TileDisappearing) in removal').stack;  console.log( stack );");
             }
 
             engine.removeEntity(e);
@@ -136,7 +136,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
 
                     if(e.has(TileDisappearing))
                     {
-                        untyped __js__("Error.stackTraceLimit = Infinity; var stack = new Error('e.has(TileDisappearing) == true').stack;  console.log( stack );");
+                        untyped __js__("Error.stackTraceLimit = Infinity; var stack = new Error('e.has(TileDisappearing) in populate').stack;  console.log( stack );");
                     }
 
                     engine.addEntity(e);

@@ -73,6 +73,8 @@ class Factory
             textureName = "tile2.png";
         case I:
             textureName = "tile1.png";
+        case T:
+            textureName = "tilet.png";
         }
 
         e.get(StaticSprite2D).setColor(new Color(1, 1, 1, 1));

@@ -8,6 +8,7 @@ enum TileType
     EMPTY;
     L;
     I;
+    T;
 }
 
 class Tile

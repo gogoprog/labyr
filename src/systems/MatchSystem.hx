@@ -43,6 +43,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
         connections[TileType.EMPTY] = [false, false, false, false];
         connections[TileType.L] = [true, false, false, true];
         connections[TileType.I] = [false, true, false, true];
+        connections[TileType.T] = [true, true, false, true];
     }
 
     override public function addToEngine(_engine:Engine)

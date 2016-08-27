@@ -177,9 +177,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
 
         for(tileNode in matches.keys())
         {
-            tileNode.sprite.setColor(new Color(0.0,0.0,1.0,1.0));
-            tileNode.tile.sm.changeState("disappearing");
-            tileNode.tile.matching = true;
+            tileNode.disappear();
         }
 
         if(count > 0)
@@ -193,23 +191,81 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                     var tn = grid[x][y];
                     if(!tn.tile.matching)
                     {
-                        var path = pathFinder.createPath(
-                            new Coordinate(x+1, y+1),
-                            new Coordinate(0, 0),
-                            EHeuristic.PRODUCT,
-                            false,
-                            false
-                            );
+                        var reachable:Bool;
 
-                        if(path == null)
+                        reachable = true;
+                        for(x2 in 0...x)
                         {
-                            tn.sprite.setColor(new Color(1.0,0.0,1.0,1.0));
-                            tn.tile.sm.changeState("disappearing");
-                            tn.tile.matching = true;
+                            if(grid[x2][y].tile.matching)
+                            {
+                                reachable = false;
+                                break;
+                            }
                         }
-                        else
-                        {
 
+                        if(reachable)
+                        {
+                            continue;
+                        }
+
+                        reachable = true;
+                        for(x2 in x...GridConfig.width)
+                        {
+                            if(grid[x2][y].tile.matching)
+                            {
+                                reachable = false;
+                                break;
+                            }
+                        }
+
+                        if(reachable)
+                        {
+                            continue;
+                        }
+
+                        reachable = true;
+                        for(y2 in 0...y)
+                        {
+                            if(grid[x][y2].tile.matching)
+                            {
+                                reachable = false;
+                                break;
+                            }
+                        }
+
+                        if(reachable)
+                        {
+                            continue;
+                        }
+
+                        reachable = true;
+                        for(y2 in y...GridConfig.height)
+                        {
+                            if(grid[x][y2].tile.matching)
+                            {
+                                reachable = false;
+                                break;
+                            }
+                        }
+
+                        if(reachable)
+                        {
+                            continue;
+                        }
+
+                        {
+                            var path = pathFinder.createPath(
+                                new Coordinate(x+1, y+1),
+                                new Coordinate(0, 0),
+                                EHeuristic.PRODUCT,
+                                false,
+                                false
+                                );
+
+                            if(path == null)
+                            {
+                                tn.disappear();
+                            }
                         }
                     }
                 }

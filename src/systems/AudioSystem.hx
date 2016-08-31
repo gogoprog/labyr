@@ -27,6 +27,7 @@ class AudioSystem extends System
 
         add("pop");
         add("deny");
+        add("match");
     }
 
     override public function addToEngine(_engine:Engine)

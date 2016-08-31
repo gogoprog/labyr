@@ -62,6 +62,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
         if(findMatches())
         {
             disappearTiles();
+            engine.getSystem(AudioSystem).playSound("match");
         }
         else
         {

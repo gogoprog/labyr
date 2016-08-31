@@ -80,6 +80,14 @@ class InputSystem extends System
 
                     Application.changeState("gameRotating");
                 }
+                else if(input.getMouseButtonPress(1 << 2))
+                {
+                    Application.changeState("gameMatching");
+
+                    engine.updateComplete.addOnce(function() {
+                            selectedTileNode.disappear();
+                        });
+                }
             }
         }
     }

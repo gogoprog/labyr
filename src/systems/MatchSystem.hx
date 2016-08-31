@@ -89,7 +89,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
 
         entitiesToRemove.splice(0, entitiesToRemove.length);
 
-        if(count == 0)
+        if(count == 0 && nodeList.empty && !itMustRepopulate)
         {
             Application.changeState("gameIdling");
             return;

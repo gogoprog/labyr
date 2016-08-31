@@ -79,6 +79,8 @@ class InputSystem extends System
                     tm.toAngle = tm.fromAngle - 90;
 
                     Application.changeState("gameRotating");
+
+                    engine.getSystem(AudioSystem).playSound("pop");
                 }
                 else if(input.getMouseButtonPress(1 << 2))
                 {
@@ -87,6 +89,8 @@ class InputSystem extends System
                     engine.updateComplete.addOnce(function() {
                             selectedTileNode.disappear();
                         });
+
+                    engine.getSystem(AudioSystem).playSound("deny");
                 }
             }
         }

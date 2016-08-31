@@ -88,6 +88,8 @@ class Application
         border.position = new Vector3(0,-400,0);
         engine.addEntity(border);
 
+        engine.addSystem(new AudioSystem(), 10);
+
         changeState("menu");
     }
 

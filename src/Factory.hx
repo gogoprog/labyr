@@ -34,6 +34,8 @@ class Factory
         var hs = GridConfig.tileSize / 2;
 
         e.get(StaticSprite2D).setLayer(0);
+
+        e.get(StaticSprite2D).setUseDrawRect(true);
         e.get(StaticSprite2D).setDrawRect(new Rect(new Vector2(-hs, -hs), new Vector2(hs, hs)));
         e.get(Tile).sm = sm;
 
@@ -92,6 +94,8 @@ class Factory
     {
         var e = new Entity();
         e.add(new StaticSprite2D());
+        e.get(StaticSprite2D).setUseDrawRect(true);
+        e.get(StaticSprite2D).setUseTextureRect(true);
         e.get(StaticSprite2D).setDrawRect(new Rect(new Vector2(-size.x/2, -size.y/2), new Vector2(size.x/2, size.y/2)));
         e.get(StaticSprite2D).setTextureRect(new Rect(new Vector2(0, 0), new Vector2(size.x/256, size.y/256)));
         var sprite = Gengine.getResourceCache().getSprite2D("ground.png", true);

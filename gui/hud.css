@@ -25,7 +25,7 @@
     height:512px;
     top:0;
     left:0;
-    background-image: url("/gui/hud.png");
+    background-image: url("hud.png");
 }
 
 .slideRight{

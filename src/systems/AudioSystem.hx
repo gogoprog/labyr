@@ -47,7 +47,7 @@ class AudioSystem extends System
 
     public function playSound(sound:String)
     {
-        soundSources[nextSoundSourceIndex++].play(sounds[sound]);
+        soundSources[nextSoundSourceIndex++].play1(sounds[sound]);
         nextSoundSourceIndex %= soundSources.length;
     }
 }

@@ -1,5 +1,6 @@
 -cp %GENGINE%/deps/common/Ash-Haxe/src/
 -cp %GENGINE%/src/haxe/
+-cp %GENGINE%/src/bindings/generated/haxe
 -cp ./src/
 -main gengine.Main
 -js ./generated/main.js

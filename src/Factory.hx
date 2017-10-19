@@ -91,13 +91,13 @@ class Factory
                 }
         }
         e.get(StaticSprite2D).setSprite(Gengine.getResourceCache().getSprite2D(textureName, true));
+            e.get(StaticSprite2D).setColor(new Color(1, 1, 1, 1));
         e.get(Tile).type = ttype;
         e.get(Tile).angle = angle;
         e.get(Tile).matching = false;
         e.setRotation2D(angle);
         if(powerup == null)
         {
-            e.get(StaticSprite2D).setColor(new Color(1, 1, 1, 1));
             e.get(Tile).powerup = null;
         }
         return e;

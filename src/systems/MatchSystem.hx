@@ -307,6 +307,21 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
         return p.x >= 0 && p.y >= 0 && p.x < GridConfig.width && p.y < GridConfig.height;
     }
 
+    private function getTileNode(x:Int, y:Int):TileNode
+    {
+        var p2:IntVector2;
+
+        p2 = new IntVector2(x, y);
+
+        if(isTile(p2))
+        {
+            var tileNode2 = grid[p2.x][p2.y];
+            return tileNode2;
+        }
+
+        return null;
+    }
+
     private function getNeighborTileNode(tile:Tile, offsetX:Int, offsetY:Int):TileNode
     {
         var p = tile.position;
@@ -421,23 +436,23 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                         var y = tdn.tile.position.y;
                         for(x in 0...GridConfig.width)
                         {
-                            addMatch(getNeighborTileNode(tdn.tile, x, y));
+                            addMatch(getTileNode(x, y));
                         }
                     case VBOMB:
                         var x = tdn.tile.position.x;
                         for(y in 0...GridConfig.height)
                         {
-                            addMatch(getNeighborTileNode(tdn.tile, x, y));
+                            addMatch(getTileNode(x, y));
                         }
                     case XBOMB:
                         var x = tdn.tile.position.x;
                         var y = tdn.tile.position.y;
                         for(i in 1...GridConfig.width * 2)
                         {
-                            addMatch(getNeighborTileNode(tdn.tile, x + i, y + i));
-                            addMatch(getNeighborTileNode(tdn.tile, x - i, y + i));
-                            addMatch(getNeighborTileNode(tdn.tile, x + i, y - i));
-                            addMatch(getNeighborTileNode(tdn.tile, x - i, y - i));
+                            addMatch(getTileNode(x + i, y + i));
+                            addMatch(getTileNode(x - i, y + i));
+                            addMatch(getTileNode(x + i, y - i));
+                            addMatch(getTileNode(x - i, y - i));
                         }
                 }
             }

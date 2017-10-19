@@ -81,14 +81,9 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
         entitiesToRemove.splice(0, entitiesToRemove.length);
         if(matchesList.length > 0)
         {
-            trace("extra");
-        for(tileNode in matchesList)
-        {
-            tileNode.disappear();
-        }
             engine.getSystem(AudioSystem).playSound("match");
-            matches = new Map();
             matchesList = [];
+            matches = new Map();
             return;
         }
         if(nodeList.empty && !itMustRepopulate)
@@ -303,6 +298,22 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
         return p.x >= 0 && p.y >= 0 && p.x < GridConfig.width && p.y < GridConfig.height;
     }
 
+    private function getNeighborTileNode(tile:Tile, offsetX:Int, offsetY:Int):TileNode
+    {
+        var p = tile.position;
+        var p2:IntVector2;
+
+        p2 = new IntVector2(p.x + offsetX, p.y + offsetY);
+
+        if(isTile(p2))
+        {
+            var tileNode2 = grid[p2.x][p2.y];
+            return tileNode2;
+        }
+
+        return null;
+    }
+
     private function getConnectedTileNode(tile:Tile, direction:Int):TileNode
     {
         var p = tile.position;
@@ -390,10 +401,10 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                 {
                     case RED:
                         trace("RED!");
-                        addMatch(getConnectedTileNode(tdn.tile, 0));
-                        addMatch(getConnectedTileNode(tdn.tile, 1));
-                        addMatch(getConnectedTileNode(tdn.tile, 2));
-                        addMatch(getConnectedTileNode(tdn.tile, 3));
+                        addMatch(getNeighborTileNode(tdn.tile, 0, 1));
+                        addMatch(getNeighborTileNode(tdn.tile, 0, -1));
+                        addMatch(getNeighborTileNode(tdn.tile, 1, 0));
+                        addMatch(getNeighborTileNode(tdn.tile, -1, 0));
                     case YELLOW:
                 }
             }
@@ -422,6 +433,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
         {
             matches[tn] = true;
             matchesList.push(tn);
+            tn.disappear();
         }
     }
 

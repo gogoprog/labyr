@@ -80,20 +80,23 @@ class Factory
         e.get(Tile).type = ttype;
         e.get(Tile).angle = angle;
         e.get(Tile).matching = false;
-        e.get(Tile).powerup = powerup;
         e.setRotation2D(angle);
         if(powerup == null)
         {
             e.get(StaticSprite2D).setColor(new Color(1, 1, 1, 1));
+        e.get(Tile).powerup = null;
         }
         else
         {
-            switch(Powerup.createByIndex(powerup))
+            var powerupv = Powerup.createByIndex(powerup);
+
+        e.get(Tile).powerup = powerupv;
+            switch(powerupv)
             {
                 case RED:
                     e.get(StaticSprite2D).setColor(new Color(1, 0, 0, 1));
                 case YELLOW:
-                    e.get(StaticSprite2D).setColor(new Color(1, 0, 1, 1));
+                    e.get(StaticSprite2D).setColor(new Color(0.4, 0, 0.4, 1));
             }
         }
         return e;

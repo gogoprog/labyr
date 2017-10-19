@@ -40,12 +40,15 @@ class GameSystem extends System
         {
             for(j in 0...GridConfig.height)
             {
-                var powerup = null;
-                if(Math.random() > 0.5)
+                var e:Entity;
+                if(Math.random() > 0.8)
                 {
-                    powerup = Std.random(2);
+                    e = Factory.getItem(Type.enumIndex(TileType.POWERUP), 0, Std.random(4));
                 }
-                var e = Factory.getItem(Std.random(3) + 1, Std.random(4) * 90, powerup);
+                else
+                {
+                    e = Factory.getItem(Std.random(3) + 1, Std.random(4) * 90 );
+                }
                 e.get(Tile).sm.changeState("moving");
                 e.get(Tile).position = new IntVector2(i, j);
                 e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + j * GridConfig.tileSize + 10 * GridConfig.tileSize);

@@ -75,6 +75,20 @@ class Factory
                 textureName = "tile1.png";
             case T:
                 textureName = "tilet.png";
+            case POWERUP:
+                var powerupv = Powerup.createByIndex(powerup);
+                e.get(Tile).powerup = powerupv;
+                switch(powerupv)
+                {
+                    case HBOMB:
+                        textureName = "lock0.png";
+                    case VBOMB:
+                        textureName = "lock1.png";
+                    case XBOMB:
+                        textureName = "lock2.png";
+                    case ABOMB:
+                        textureName = "lock3.png";
+                }
         }
         e.get(StaticSprite2D).setSprite(Gengine.getResourceCache().getSprite2D(textureName, true));
         e.get(Tile).type = ttype;
@@ -84,20 +98,7 @@ class Factory
         if(powerup == null)
         {
             e.get(StaticSprite2D).setColor(new Color(1, 1, 1, 1));
-        e.get(Tile).powerup = null;
-        }
-        else
-        {
-            var powerupv = Powerup.createByIndex(powerup);
-
-        e.get(Tile).powerup = powerupv;
-            switch(powerupv)
-            {
-                case RED:
-                    e.get(StaticSprite2D).setColor(new Color(1, 0, 0, 1));
-                case YELLOW:
-                    e.get(StaticSprite2D).setColor(new Color(0.4, 0, 0.4, 1));
-            }
+            e.get(Tile).powerup = null;
         }
         return e;
     }

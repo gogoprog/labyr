@@ -9,11 +9,14 @@ enum TileType
     L;
     I;
     T;
+    POWERUP;
 }
 
 enum Powerup {
-    RED;
-    YELLOW;
+    HBOMB;
+    VBOMB;
+    XBOMB;
+    ABOMB;
 }
 
 class Tile

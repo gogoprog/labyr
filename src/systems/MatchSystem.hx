@@ -40,6 +40,7 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
         connections[TileType.L] = [true, false, false, true];
         connections[TileType.I] = [false, true, false, true];
         connections[TileType.T] = [true, true, false, true];
+        connections[TileType.POWERUP] = [true, true, true, true];
     }
 
     override public function addToEngine(_engine:Engine)
@@ -118,7 +119,15 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                 }
                 for(h in 0...holes)
                 {
-                    var e = Factory.getItem(Std.random(3) + 1, Std.random(4) * 90);
+                    var e:Entity;
+                    if(Math.random() > 0.8)
+                    {
+                        e = Factory.getItem(Type.enumIndex(TileType.POWERUP), 0, Std.random(4));
+                    }
+                    else
+                    {
+                        e = Factory.getItem(Std.random(3) + 1, Std.random(4) * 90);
+                    }
                     e.get(Tile).sm.changeState("moving");
                     e.get(Tile).position = new IntVector2(i, GridConfig.height - holes + h);
                     e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + h) * GridConfig.tileSize);
@@ -399,13 +408,37 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
             {
                 switch(tdn.tile.powerup)
                 {
-                    case RED:
-                        trace("RED!");
+                    case ABOMB:
                         addMatch(getNeighborTileNode(tdn.tile, 0, 1));
                         addMatch(getNeighborTileNode(tdn.tile, 0, -1));
                         addMatch(getNeighborTileNode(tdn.tile, 1, 0));
                         addMatch(getNeighborTileNode(tdn.tile, -1, 0));
-                    case YELLOW:
+                        addMatch(getNeighborTileNode(tdn.tile, -1, 1));
+                        addMatch(getNeighborTileNode(tdn.tile, -1, -1));
+                        addMatch(getNeighborTileNode(tdn.tile, 1, 1));
+                        addMatch(getNeighborTileNode(tdn.tile, 1, -1));
+                    case HBOMB:
+                        var y = tdn.tile.position.y;
+                        for(x in 0...GridConfig.width)
+                        {
+                            addMatch(getNeighborTileNode(tdn.tile, x, y));
+                        }
+                    case VBOMB:
+                        var x = tdn.tile.position.x;
+                        for(y in 0...GridConfig.height)
+                        {
+                            addMatch(getNeighborTileNode(tdn.tile, x, y));
+                        }
+                    case XBOMB:
+                        var x = tdn.tile.position.x;
+                        var y = tdn.tile.position.y;
+                        for(i in 1...GridConfig.width * 2)
+                        {
+                            addMatch(getNeighborTileNode(tdn.tile, x + i, y + i));
+                            addMatch(getNeighborTileNode(tdn.tile, x - i, y + i));
+                            addMatch(getNeighborTileNode(tdn.tile, x + i, y - i));
+                            addMatch(getNeighborTileNode(tdn.tile, x - i, y - i));
+                        }
                 }
             }
         }

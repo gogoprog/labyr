@@ -20,7 +20,8 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
     private var engine:Engine;
     private var grid:Vector<Vector<TileNode>>;
     private var connections:Map<TileType, Array<Bool>>;
-    private var matches:Map<TileNode, Bool>;
+    private var matches:Map<TileNode, Bool> = new Map();
+    private var matchesList:Array<TileNode> = new Array<TileNode>();
     private var count:Int;
     private var itMustRepopulate = false;
     private var pathFinder:Pathfinder;
@@ -30,16 +31,12 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
     public function new()
     {
         super(TileDisappearingNode, updateNode, onNodeAdded, onNodeRemoved);
-
         grid = new Vector<Vector<TileNode>>(GridConfig.width);
-
         for(i in 0...GridConfig.width)
         {
             grid[i] = new Vector<TileNode>(GridConfig.height);
         }
-
         connections = new Map<TileType, Array<Bool>>();
-
         connections[TileType.EMPTY] = [false, false, false, false];
         connections[TileType.L] = [true, false, false, true];
         connections[TileType.I] = [false, true, false, true];
@@ -49,16 +46,13 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
     override public function addToEngine(_engine:Engine)
     {
         super.addToEngine(_engine);
-
         engine = _engine;
         var list = engine.getNodeList(TileNode);
-
         for(node in list)
         {
             var p = node.tile.position;
             grid[p.x][p.y] = node;
         }
-
         if(findMatches())
         {
             disappearTiles();
@@ -78,32 +72,25 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
     override public function update(dt:Float)
     {
         super.update(dt);
-
         for(i in 0...entitiesToRemove.length)
         {
             var e = entitiesToRemove[i];
             e.get(Tile).sm.changeState("idle");
-
             engine.removeEntity(e);
             Factory.onItemRemoved(e);
         }
-
         entitiesToRemove.splice(0, entitiesToRemove.length);
-
         if(count == 0 && nodeList.empty && !itMustRepopulate)
         {
             Application.changeState("gameIdling");
             return;
         }
-
         if(itMustRepopulate)
         {
             var offset = GridConfig.offset;
-
             for(i in 0...GridConfig.width)
             {
                 var holes = 0;
-
                 for(j in 0...GridConfig.height)
                 {
                     if(grid[i][j] == null)
@@ -113,7 +100,6 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                     else if(holes > 0)
                     {
                         var e = grid[i][j].entity;
-
                         e.get(Tile).sm.changeState("moving");
                         e.get(Tile).position = new IntVector2(i, j - holes);
                         e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + j * GridConfig.tileSize);
@@ -121,32 +107,25 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                         e.get(TileMovement).duration = 0.02 * holes;
                         e.get(TileMovement).fromAngle = e.get(Tile).angle;
                         e.get(TileMovement).toAngle = e.get(Tile).angle;
-
                         grid[i][j - holes] = grid[i][j];
                     }
                 }
-
                 for(h in 0...holes)
                 {
                     var e = Factory.getItem(Std.random(3) + 1, Std.random(4) * 90);
-
                     e.get(Tile).sm.changeState("moving");
                     e.get(Tile).position = new IntVector2(i, GridConfig.height - holes + h);
-                    e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + h ) * GridConfig.tileSize);
+                    e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + h) * GridConfig.tileSize);
                     e.get(TileMovement).to = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height - holes + h) * GridConfig.tileSize);
                     e.get(TileMovement).duration = 0.02 * holes;
                     e.get(TileMovement).fromAngle = e.get(Tile).angle;
                     e.get(TileMovement).toAngle = e.get(Tile).angle;
-
-                    e.position = new Vector3(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + h ) * GridConfig.tileSize, 0);
-
+                    e.position = new Vector3(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + h) * GridConfig.tileSize, 0);
                     engine.addEntity(e);
-
                     var tn = engine.getNodeList(TileNode).tail;
                     grid[tn.tile.position.x][tn.tile.position.y] = tn;
                 }
             }
-
             Application.changeState("gameFalling");
             itMustRepopulate = false;
         }
@@ -164,8 +143,6 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
 
     private function findMatches()
     {
-        matches = new Map<TileNode, Bool>();
-
         for(x in 0...GridConfig.width)
         {
             for(y in 0...GridConfig.height)
@@ -174,23 +151,19 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                 findPath(tn, [tn => true], [tn], -1);
             }
         }
-
-        count = [for (k in matches.keys()) k].length;
-
+        count = matchesList.length;
         return count > 0;
     }
 
     private function disappearTiles()
     {
-        for(tileNode in matches.keys())
+        for(tileNode in matchesList)
         {
             tileNode.disappear();
         }
-
         if(count > 0)
         {
             pathFinder = new Pathfinder(this);
-
             for(x in 0...GridConfig.width)
             {
                 for(y in 0...GridConfig.height)
@@ -199,7 +172,6 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                     if(!tn.tile.matching)
                     {
                         var reachable:Bool;
-
                         reachable = true;
                         for(x2 in 0...x)
                         {
@@ -209,12 +181,10 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                                 break;
                             }
                         }
-
                         if(reachable)
                         {
                             continue;
                         }
-
                         reachable = true;
                         for(x2 in x...GridConfig.width)
                         {
@@ -224,12 +194,10 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                                 break;
                             }
                         }
-
                         if(reachable)
                         {
                             continue;
                         }
-
                         reachable = true;
                         for(y2 in 0...y)
                         {
@@ -239,12 +207,10 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                                 break;
                             }
                         }
-
                         if(reachable)
                         {
                             continue;
                         }
-
                         reachable = true;
                         for(y2 in y...GridConfig.height)
                         {
@@ -254,21 +220,18 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                                 break;
                             }
                         }
-
                         if(reachable)
                         {
                             continue;
                         }
-
                         {
                             var path = pathFinder.createPath(
-                                new Coordinate(x+1, y+1),
-                                new Coordinate(0, 0),
-                                EHeuristic.PRODUCT,
-                                false,
-                                false
-                                );
-
+                                           new Coordinate(x+1, y+1),
+                                           new Coordinate(0, 0),
+                                           EHeuristic.PRODUCT,
+                                           false,
+                                           false
+                                       );
                             if(path == null)
                             {
                                 tn.disappear();
@@ -277,6 +240,8 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                     }
                 }
             }
+            matches = new Map();
+            matchesList = [];
         }
     }
 
@@ -284,7 +249,6 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
     {
         var p1 = first.position;
         var p2 = second.position;
-
         if(p1.x == p2.x)
         {
             if(p2.y - p1.y == 1)
@@ -307,24 +271,20 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                 return isDirectionOpen(first, 3) && isDirectionOpen(second, 1);
             }
         }
-
         return false;
     }
 
     private inline function isDirectionOpen(tile:Tile, direction:Int)
     {
         direction += Std.int(tile.angle / 90);
-
         while(direction < 0)
         {
             direction += 4;
         }
-
         while(direction >= 4)
         {
             direction -= 4;
         }
-
         return connections[tile.type][direction];
     }
 
@@ -353,11 +313,9 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                 default:
                     p2 = new IntVector2(666, 666);
             }
-
             if(isTile(p2))
             {
                 var tileNode2 = grid[p2.x][p2.y];
-
                 if(isDirectionOpen(tileNode2.tile, (direction + 2) % 4))
                 {
                     return tileNode2;
@@ -372,29 +330,24 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
     {
         var otherTileNode:TileNode;
         var finished = false;
-
         for(d in 0...4)
         {
             if(d != (previousDirection + 2) % 4)
             {
                 otherTileNode = getConnectedTileNode(tileNode, d);
-
                 if(otherTileNode != null)
                 {
                     if(!path.exists(otherTileNode))
                     {
                         var otherPath = new Map<TileNode, Bool>();
                         var otherOrderedPath = new Array<TileNode>();
-
                         for(k in orderedPath)
                         {
                             otherPath[k] = path[k];
                             otherOrderedPath.push(k);
                         }
-
                         otherPath[otherTileNode] = true;
                         otherOrderedPath.push(otherTileNode);
-
                         findPath(otherTileNode, otherPath, otherOrderedPath, d);
                         finished = false;
                     }
@@ -402,7 +355,11 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
                     {
                         for(tileNode in path.keys())
                         {
-                            matches[tileNode] = true;
+                            if(!matches.exists(tileNode))
+                            {
+                                matches[tileNode] = true;
+                                matchesList.push(tileNode);
+                            }
                         }
                     }
                 }
@@ -413,12 +370,18 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
     private function updateNode(tdn:TileDisappearingNode, dt:Float)
     {
         tdn.tileDisappearing.time += dt;
-
         tdn.sprite.setAlpha(1.0 - tdn.tileDisappearing.time * 6);
-
         if(tdn.tileDisappearing.time > 0.5)
         {
             entitiesToRemove.push(tdn.entity);
+            if(tdn.tile.powerup != null)
+            {
+                switch(tdn.tile.powerup)
+                {
+                    case RED:
+                    case YELLOW:
+                }
+            }
         }
     }
 
@@ -431,7 +394,6 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
     {
         var p = tdn.tile.position;
         grid[p.x][p.y] = null;
-
         if(engine.getNodeList(TileDisappearingNode).empty)
         {
             itMustRepopulate = true;
@@ -441,27 +403,22 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
     private function countPossibleMatches()
     {
         var result = 0;
-
         for(i in 0...GridConfig.width)
         {
             for(j in 0...GridConfig.height)
             {
                 var tn = grid[i][j];
-
                 for(r in 0...3)
                 {
                     tn.tile.angle += 90;
-
                     if(findMatches())
                     {
                         ++result;
                     }
                 }
-
                 tn.tile.angle -= 270;
             }
         }
-
         return result;
     }
 }

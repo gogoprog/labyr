@@ -5,6 +5,7 @@ import ash.fsm.*;
 import components.*;
 import gengine.math.*;
 import components.Tile.TileType;
+import components.Tile.Powerup;
 
 class Factory
 {
@@ -12,7 +13,7 @@ class Factory
 
     static public function init()
     {
-        for(i in 0...(GridConfig.width * GridConfig.height) * 2 )
+        for(i in 0...(GridConfig.width * GridConfig.height) * 2)
         {
             pool.push(createItem());
         }
@@ -43,18 +44,17 @@ class Factory
         sm.changeState("idle");
 
         sm.createState("moving")
-            .add(TileMovement).withInstance(new TileMovement());
+        .add(TileMovement).withInstance(new TileMovement());
 
         sm.createState("disappearing")
-            .add(TileDisappearing).withInstance(new TileDisappearing());
+        .add(TileDisappearing).withInstance(new TileDisappearing());
 
         return e;
     }
 
-    static public function getItem(type:Int, angle:Float)
+    static public function getItem(type:Int, angle:Float, ?powerup)
     {
         var e:Entity;
-
         if(pool.length > 0)
         {
             e = pool.shift();
@@ -63,30 +63,39 @@ class Factory
         {
             e = createItem();
         }
-
         var ttype = TileType.createByIndex(type);
-
         var textureName:String;
-
-        switch (ttype) {
-        case EMPTY:
-            textureName = "tile0.png";
-        case L:
-            textureName = "tile2.png";
-        case I:
-            textureName = "tile1.png";
-        case T:
-            textureName = "tilet.png";
+        switch(ttype)
+        {
+            case EMPTY:
+                textureName = "tile0.png";
+            case L:
+                textureName = "tile2.png";
+            case I:
+                textureName = "tile1.png";
+            case T:
+                textureName = "tilet.png";
         }
-
-        e.get(StaticSprite2D).setColor(new Color(1, 1, 1, 1));
         e.get(StaticSprite2D).setSprite(Gengine.getResourceCache().getSprite2D(textureName, true));
         e.get(Tile).type = ttype;
         e.get(Tile).angle = angle;
         e.get(Tile).matching = false;
-
+        e.get(Tile).powerup = powerup;
         e.setRotation2D(angle);
-
+        if(powerup == null)
+        {
+            e.get(StaticSprite2D).setColor(new Color(1, 1, 1, 1));
+        }
+        else
+        {
+            switch(Powerup.createByIndex(powerup))
+            {
+                case RED:
+                    e.get(StaticSprite2D).setColor(new Color(1, 0, 0, 1));
+                case YELLOW:
+                    e.get(StaticSprite2D).setColor(new Color(1, 0, 1, 1));
+            }
+        }
         return e;
     }
 

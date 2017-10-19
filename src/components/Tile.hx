@@ -11,7 +11,7 @@ enum TileType
     T;
 }
 
-enum TileColor {
+enum Powerup {
     RED;
     YELLOW;
 }
@@ -22,6 +22,7 @@ class Tile
     public var angle:Float = 0;
     public var sm:EntityStateMachine;
     public var type:TileType;
+    public var powerup:Null<Powerup>;
     public var matching:Bool = false;
 
     public function new()

@@ -7,6 +7,29 @@
     text-align: center;
     color:#1d1d1b;
 }
+
+#inGame_menu #sound{
+    display:block;
+    position:absolute;
+    margin:0;
+    width:33px;
+    height:26px;
+    top:20px;
+    right:70px;
+    background-image: url("sound.png");
+}
+
+#inGame_menu #backToMenu{
+    display:block;
+    position:absolute;
+    margin:0;
+    width:18px;
+    height:23px;
+    top:20px;
+    right:40px;
+    background-image: url("backToMenu.png");
+}
+
 .yellow{
     color: #d1b300;
 }

@@ -12,6 +12,10 @@ body {
     font-family: mainFont;
     src: url("ALFABET_.ttf");
 }
+@font-face {
+    font-family: secondaryFont;
+    src: url("MATURASC.ttf");
+}
 
 #body {
     position:absolute;

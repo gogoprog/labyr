@@ -1,31 +1,112 @@
 .hud .title {
     position:absolute;
     width:120px;
-    top: 30px;
-    left: 35px;
-    font-size:35px;
-    color:yellow;
+    top: 246px;
+    left: 28px;
+    font-size:29px;
+    text-align: center;
+    color:#1d1d1b;
+}
+.yellow{
+    color: #d1b300;
 }
 
 .score {
+    font-family: secondaryFont;
     font-size:25px;
     position:absolute;
     display:inline-block;
     text-align: right;
     color:white;
-    left:70px;
-    top:330px;
+    right: 33px;
+    top: 126px;
 }
 
-.decor {
+.timer {
+    font-family: secondaryFont;
+    font-size:25px;
+    position:absolute;
+    display:inline-block;
+    text-align: right;
+    color:white;
+    right: 33px;
+    top: 43px;
+}
+
+.hud_top {
     display:block;
     position:absolute;
     margin:0;
-    width:181px;
-    height:512px;
-    top:0;
-    left:0;
-    background-image: url("hud.png");
+    width:176px;
+    height:300px;
+    top:316px;
+    /*when upper => top:64px*/
+    left:70px;
+    background-image: url("hud-top.png");
+}
+.hud_bottom{
+    display:block;
+    position:absolute;
+    margin:0;
+    width:176px;
+    height:136px;
+    bottom:50px;
+    left:70px;
+    background-image: url("hud-bot.png");
+}
+
+#kb_container .kb_item{
+    display: block;
+    position: absolute;
+    margin: 0;
+    width: 64px;
+    height: 64px;
+    background-image: url("../data/lock4.png");
+    transform: scale(0.5);
+}
+#kb_container  #kb_1{
+    bottom: 180px;
+    left: 126px;
+}
+#kb_container  #kb_2{
+    bottom: 220px;
+    left: 126px;
+}
+
+#halo{
+    display:block;
+    position:absolute;
+    margin:0;
+    width: 100px;
+    height: 240px;
+    top: 346px;
+    left: 105px;
+    background: white;
+    -moz-border-radius: 50px / 100px;
+    -webkit-border-radius: 50px / 100px;
+    border-radius: 50px / 100px;
+    filter: blur(20px);
+}
+
+#shuffle_button{
+    display:block;
+    position: absolute;
+    margin:0;
+    width:144px ;
+    height: 76px;
+    bottom: 21px;
+    left: 16px;
+    background-image: url("button-unpushed.png");
+    -webkit-transition: background-image: 1s; 
+    transition: background-image: 1s;
+}
+
+#shuffle_button:hover{
+    background-image: url("button-unpushed-hover.png");
+}
+
+#shuffle_button:active{
+    background-image: url("button-pushed.png");
 }
 
 .slideRight{

@@ -115,7 +115,7 @@ class Factory
         sprite.getTexture().setAddressMode(0, 1);
         sprite.getTexture().setAddressMode(1, 1);
         e.get(StaticSprite2D).setSprite(sprite);
-        e.get(StaticSprite2D).setLayer(10);
+        e.get(StaticSprite2D).setLayer(-1);
         return e;
     }
 }

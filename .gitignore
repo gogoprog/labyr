@@ -3,4 +3,5 @@
 callgrind*
 vgcore*
 /index*
+/tags
 

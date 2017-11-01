@@ -8,6 +8,7 @@ import components.*;
 import nodes.*;
 import gengine.math.*;
 import haxe.ds.Vector;
+import components.Tile;
 
 class InputSystem extends System
 {
@@ -20,9 +21,7 @@ class InputSystem extends System
     {
         super();
         cameraEntity = cameraEntity_;
-
         grid = new Vector<Vector<TileNode>>(GridConfig.width);
-
         for(i in 0...GridConfig.width)
         {
             grid[i] = new Vector<TileNode>(GridConfig.height);
@@ -33,13 +32,11 @@ class InputSystem extends System
     {
         engine = _engine;
         var list = engine.getNodeList(TileNode);
-
         for(node in list)
         {
             var p = node.tile.position;
             grid[p.x][p.y] = node;
         }
-
         selectedTileNode = null;
     }
 
@@ -65,31 +62,28 @@ class InputSystem extends System
             {
                 selectedTileNode = grid[p.x][p.y];
                 selectedTileNode.sprite.setAlpha(0.5);
-
                 if(input.getMouseButtonPress(1))
                 {
-                    selectedTileNode.tile.sm.changeState("moving");
-
-                    var tm:TileMovement = selectedTileNode.entity.get(TileMovement);
-
-                    tm.from = null;
-                    tm.to = null;
-                    tm.duration = 0.25;
-                    tm.fromAngle = selectedTileNode.tile.angle;
-                    tm.toAngle = tm.fromAngle - 90;
-
-                    Application.changeState("gameRotating");
-
-                    engine.getSystem(AudioSystem).playSound("pop");
+                    if(selectedTileNode.tile.type != TileType.POWERUP)
+                    {
+                        selectedTileNode.tile.sm.changeState("moving");
+                        var tm:TileMovement = selectedTileNode.entity.get(TileMovement);
+                        tm.from = null;
+                        tm.to = null;
+                        tm.duration = 0.25;
+                        tm.fromAngle = selectedTileNode.tile.angle;
+                        tm.toAngle = tm.fromAngle - 90;
+                        Application.changeState("gameRotating");
+                        engine.getSystem(AudioSystem).playSound("pop");
+                    }
                 }
                 else if(input.getMouseButtonPress(1 << 2))
                 {
                     Application.changeState("gameMatching");
-
-                    engine.updateComplete.addOnce(function() {
-                            selectedTileNode.disappear();
-                        });
-
+                    engine.updateComplete.addOnce(function()
+                    {
+                        selectedTileNode.disappear();
+                    });
                     engine.getSystem(AudioSystem).playSound("deny");
                 }
             }

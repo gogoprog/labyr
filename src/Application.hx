@@ -28,84 +28,65 @@ class Application
     {
         var state:EngineState;
         engine = _engine;
-
-        Gengine.getRenderer().getDefaultZone().setFogColor(new Color(0.8,0.9,0.8,1));
-
+        Gengine.getRenderer().getDefaultZone().setFogColor(new Color(0.8, 0.9, 0.8, 1));
         var cameraEntity = new Entity();
         cameraEntity.add(new Camera());
         cameraEntity.get(Camera).setOrthoSize(new Vector2(1024, 768));
         cameraEntity.get(Camera).setOrthographic(true);
         engine.addEntity(cameraEntity);
-
         esm = new EngineStateMachine(engine);
-
         state = new EngineState();
         state.addInstance(new MenuSystem());
         esm.addState("menu", state);
-
         var gameSystem = new GameSystem();
         var tileMovementSystem = new TileMovementSystem();
-
         state = new EngineState();
         state.addInstance(gameSystem);
         state.addInstance(tileMovementSystem);
         esm.addState("gameFalling", state);
-
         state = new EngineState();
         state.addInstance(gameSystem);
         state.addInstance(new MatchSystem());
         esm.addState("gameMatching", state);
-
         state = new EngineState();
         state.addInstance(gameSystem);
         state.addInstance(new InputSystem(cameraEntity));
         esm.addState("gameIdling", state);
-
         state = new EngineState();
         state.addInstance(gameSystem);
         state.addInstance(tileMovementSystem);
         esm.addState("gameRotating", state);
-
         esm.changeState("menu");
-
         Factory.init();
-
         var border:Entity;
-
         border = Factory.createBorder(new IntVector2(200, 800));
-        border.position = new Vector3(-420,0,0);
+        border.position = new Vector3(-420, 0, 0);
         engine.addEntity(border);
-
         border = Factory.createBorder(new IntVector2(200, 800));
-        border.position = new Vector3(420,0,0);
+        border.position = new Vector3(420, 0, 0);
         engine.addEntity(border);
-
         border = Factory.createBorder(new IntVector2(640, 160));
-        border.position = new Vector3(0,400,0);
+        border.position = new Vector3(0, 400, 0);
         engine.addEntity(border);
-
         border = Factory.createBorder(new IntVector2(640, 160));
-        border.position = new Vector3(0,-400,0);
+        border.position = new Vector3(0, -400, 0);
         engine.addEntity(border);
-
         engine.addSystem(new AudioSystem(), 10);
-
         changeState("menu");
     }
 
     public static function onGuiLoaded()
     {
         pages = UIPages.createSet(new JQuery("#body"));
-
         pages.showPage(".menu");
-
         engine.getSystem(MenuSystem).init();
     }
 
     public static function changeState(stateName)
     {
-        engine.updateComplete.addOnce(function() {
-                esm.changeState(stateName);
-            });
+        engine.updateComplete.addOnce(function()
+        {
+            esm.changeState(stateName);
+        });
     }
 }

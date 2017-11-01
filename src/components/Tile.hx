@@ -9,6 +9,14 @@ enum TileType
     L;
     I;
     T;
+    POWERUP;
+}
+
+enum Powerup {
+    HBOMB;
+    VBOMB;
+    XBOMB;
+    ABOMB;
 }
 
 class Tile
@@ -17,6 +25,7 @@ class Tile
     public var angle:Float = 0;
     public var sm:EntityStateMachine;
     public var type:TileType;
+    public var powerup:Null<Powerup>;
     public var matching:Bool = false;
 
     public function new()

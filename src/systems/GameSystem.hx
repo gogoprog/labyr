@@ -36,13 +36,19 @@ class GameSystem extends System
     private function newGrid()
     {
         var offset = GridConfig.offset;
-
         for(i in 0...GridConfig.width)
         {
             for(j in 0...GridConfig.height)
             {
-                var e = Factory.getItem( Std.random(3) + 1, Std.random(4) * 90);
-
+                var e:Entity;
+                if(Math.random() > 0.8)
+                {
+                    e = Factory.getItem(Type.enumIndex(TileType.POWERUP), 0, Std.random(4));
+                }
+                else
+                {
+                    e = Factory.getItem(Std.random(3) + 1, Std.random(4) * 90 );
+                }
                 e.get(Tile).sm.changeState("moving");
                 e.get(Tile).position = new IntVector2(i, j);
                 e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + j * GridConfig.tileSize + 10 * GridConfig.tileSize);
@@ -50,7 +56,6 @@ class GameSystem extends System
                 e.get(TileMovement).duration = 0.1;
                 e.get(TileMovement).fromAngle = e.get(Tile).angle - 90;
                 e.get(TileMovement).toAngle = e.get(Tile).angle;
-
                 engine.addEntity(e);
             }
         }

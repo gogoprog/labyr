@@ -23,6 +23,9 @@ class GameSystem extends System
     {
         engine = _engine;
         newGrid();
+
+        var level = {time: 10.9};
+        gameStarted.dispatch(level);
     }
 
     override public function update(dt:Float):Void

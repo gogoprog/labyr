@@ -7,10 +7,13 @@ import ash.fsm.*;
 import components.*;
 import gengine.math.*;
 import components.Tile.TileType;
+import ash.signals.*;
+import nodes.*;
 
 class GameSystem extends System
 {
     private var engine:Engine;
+    public var gameStarted:Signal1<Level> = new Signal1<Level>();
 
     public function new()
     {
@@ -21,6 +24,8 @@ class GameSystem extends System
     {
         engine = _engine;
         newGrid();
+        var level = {time: 10.9};
+        gameStarted.dispatch(level);
     }
 
     override public function update(dt:Float):Void
@@ -35,6 +40,16 @@ class GameSystem extends System
 
     private function newGrid()
     {
+        var nodeList = engine.getNodeList(TileNode);
+        var entityList = new Array<Entity>();
+        for(t in nodeList)
+        {
+            entityList.push(t.entity);
+        }
+        for(e in entityList)
+        {
+            engine.removeEntity(e);
+        }
         var offset = GridConfig.offset;
         for(i in 0...GridConfig.width)
         {
@@ -47,7 +62,7 @@ class GameSystem extends System
                 }
                 else
                 {
-                    e = Factory.getItem(Std.random(3) + 1, Std.random(4) * 90 );
+                    e = Factory.getItem(Std.random(3) + 1, Std.random(4) * 90);
                 }
                 e.get(Tile).sm.changeState("moving");
                 e.get(Tile).position = new IntVector2(i, j);

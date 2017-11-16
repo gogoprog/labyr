@@ -7,10 +7,12 @@ import ash.fsm.*;
 import components.*;
 import gengine.math.*;
 import components.Tile.TileType;
+import ash.signals.*;
 
 class GameSystem extends System
 {
     private var engine:Engine;
+    public var gameStarted:Signal1<Level> = new Signal1<Level>();
 
     public function new()
     {

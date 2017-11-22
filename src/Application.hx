@@ -47,12 +47,10 @@ class Application
         state.addInstance(gameSystem);
         state.addInstance(new FillSystem());
         state.addInstance(tileMovementSystem);
-        state.addInstance(clockSystem);
         esm.addState("gameFalling", state);
         state = new EngineState();
         state.addInstance(gameSystem);
         state.addInstance(new MatchSystem());
-        state.addInstance(clockSystem);
         esm.addState("gameMatching", state);
         state = new EngineState();
         state.addInstance(gameSystem);
@@ -62,7 +60,6 @@ class Application
         state = new EngineState();
         state.addInstance(gameSystem);
         state.addInstance(tileMovementSystem);
-        state.addInstance(clockSystem);
         esm.addState("gameRotating", state);
         esm.changeState("menu");
         Factory.init();

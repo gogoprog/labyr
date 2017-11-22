@@ -1,4 +1,4 @@
-let $ROOT = getcwd()
-map <F7> :!gengine-run $ROOT<CR>
+map <F7> :cd $PROJECT_ROOT<bar>:Make<CR>
+map <F8> :!gengine-run $PROJECT_ROOT<CR>
 
 

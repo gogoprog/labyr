@@ -94,53 +94,6 @@ class MatchSystem extends ListIteratingSystem<TileDisappearingNode> implements I
         }
         if(itMustRepopulate)
         {
-            var offset = GridConfig.offset;
-            for(i in 0...GridConfig.width)
-            {
-                var holes = 0;
-                for(j in 0...GridConfig.height)
-                {
-                    if(grid[i][j] == null)
-                    {
-                        holes++;
-                    }
-                    else if(holes > 0)
-                    {
-                        var e = grid[i][j].entity;
-                        e.get(Tile).sm.changeState("moving");
-                        e.get(Tile).position = new IntVector2(i, j - holes);
-                        e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + j * GridConfig.tileSize);
-                        e.get(TileMovement).to = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (j - holes) * GridConfig.tileSize);
-                        e.get(TileMovement).duration = 0.02 * holes;
-                        e.get(TileMovement).fromAngle = e.get(Tile).angle;
-                        e.get(TileMovement).toAngle = e.get(Tile).angle;
-                        grid[i][j - holes] = grid[i][j];
-                    }
-                }
-                for(h in 0...holes)
-                {
-                    var e:Entity;
-                    if(Math.random() > 0.8)
-                    {
-                        e = Factory.getItem(Type.enumIndex(TileType.POWERUP), 0, Std.random(4));
-                    }
-                    else
-                    {
-                        e = Factory.getItem(Std.random(3) + 1, Std.random(4) * 90);
-                    }
-                    e.get(Tile).sm.changeState("moving");
-                    e.get(Tile).position = new IntVector2(i, GridConfig.height - holes + h);
-                    e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + h) * GridConfig.tileSize);
-                    e.get(TileMovement).to = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height - holes + h) * GridConfig.tileSize);
-                    e.get(TileMovement).duration = 0.02 * holes;
-                    e.get(TileMovement).fromAngle = e.get(Tile).angle;
-                    e.get(TileMovement).toAngle = e.get(Tile).angle;
-                    e.position = new Vector3(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + h) * GridConfig.tileSize, 0);
-                    engine.addEntity(e);
-                    var tn = engine.getNodeList(TileNode).tail;
-                    grid[tn.tile.position.x][tn.tile.position.y] = tn;
-                }
-            }
             Application.changeState("gameFalling");
             itMustRepopulate = false;
         }

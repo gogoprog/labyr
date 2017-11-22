@@ -59,6 +59,7 @@ class FillSystem extends System
 
     private function fill()
     {
+        var timePerHole = 0.1;
         var offset = GridConfig.offset;
         for(i in 0...GridConfig.width)
         {
@@ -74,9 +75,9 @@ class FillSystem extends System
                     var e = grid[i][j].entity;
                     e.get(Tile).sm.changeState("moving");
                     e.get(Tile).position = new IntVector2(i, j - holes);
-                    e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + j * GridConfig.tileSize);
+                    e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (j) * GridConfig.tileSize);
                     e.get(TileMovement).to = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (j - holes) * GridConfig.tileSize);
-                    e.get(TileMovement).duration = 0.02 * holes;
+                    e.get(TileMovement).duration = timePerHole * (holes);
                     e.get(TileMovement).fromAngle = e.get(Tile).angle;
                     e.get(TileMovement).toAngle = e.get(Tile).angle;
                     grid[i][j - holes] = grid[i][j];
@@ -84,6 +85,7 @@ class FillSystem extends System
             }
             for(h in 0...holes)
             {
+                var dropOffset = 5;
                 var e:Entity;
                 if(Math.random() > 0.8)
                 {
@@ -95,12 +97,12 @@ class FillSystem extends System
                 }
                 e.get(Tile).sm.changeState("moving");
                 e.get(Tile).position = new IntVector2(i, GridConfig.height - holes + h);
-                e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + h) * GridConfig.tileSize);
+                e.get(TileMovement).from = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + dropOffset + h) * GridConfig.tileSize);
                 e.get(TileMovement).to = new Vector2(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height - holes + h) * GridConfig.tileSize);
-                e.get(TileMovement).duration = 0.02 * holes;
+                e.get(TileMovement).duration = timePerHole * (holes + dropOffset);
                 e.get(TileMovement).fromAngle = e.get(Tile).angle;
                 e.get(TileMovement).toAngle = e.get(Tile).angle;
-                e.position = new Vector3(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + h) * GridConfig.tileSize, 0);
+                e.position = new Vector3(offset.x + i * GridConfig.tileSize, offset.y + (GridConfig.height + dropOffset + h) * GridConfig.tileSize, 0);
                 engine.addEntity(e);
                 var tn = engine.getNodeList(TileNode).tail;
                 grid[tn.tile.position.x][tn.tile.position.y] = tn;

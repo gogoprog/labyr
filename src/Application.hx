@@ -3,6 +3,8 @@ import gengine.math.*;
 import gengine.components.*;
 import gengine.graphics.*;
 
+import nodes.*;
+
 import ash.fsm.*;
 
 import systems.*;
@@ -43,13 +45,12 @@ class Application
         esm.addState("menu", state);
         state = new EngineState();
         state.addInstance(gameSystem);
+        state.addInstance(new FillSystem());
         state.addInstance(tileMovementSystem);
-        state.addInstance(clockSystem);
         esm.addState("gameFalling", state);
         state = new EngineState();
         state.addInstance(gameSystem);
         state.addInstance(new MatchSystem());
-        state.addInstance(clockSystem);
         esm.addState("gameMatching", state);
         state = new EngineState();
         state.addInstance(gameSystem);
@@ -59,7 +60,6 @@ class Application
         state = new EngineState();
         state.addInstance(gameSystem);
         state.addInstance(tileMovementSystem);
-        state.addInstance(clockSystem);
         esm.addState("gameRotating", state);
         esm.changeState("menu");
         Factory.init();
@@ -84,5 +84,22 @@ class Application
         {
             esm.changeState(stateName);
         });
+    }
+
+
+    public static function newGame()
+    {
+        var nodeList = engine.getNodeList(TileNode);
+        var entityList = new Array<Entity>();
+        for(t in nodeList)
+        {
+            entityList.push(t.entity);
+        }
+        for(e in entityList)
+        {
+            engine.removeEntity(e);
+        }
+
+        changeState("gameFalling");
     }
 }

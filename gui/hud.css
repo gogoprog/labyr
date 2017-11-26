@@ -56,6 +56,19 @@
     top: 43px;
 }
 
+.hud{
+    z-index: 2;
+}
+
+#frontSand{
+    z-index: 100;
+    display:block;
+    position:absolute;
+    margin:0;
+    background-image: url("front-sand.png");
+    background-position-y: bottom;
+}
+
 .hud_top {
     display:block;
     position:absolute;
@@ -67,6 +80,7 @@
     left:70px;
     background-image: url("hud-top.png");
 }
+
 .hud_bottom{
     display:block;
     position:absolute;

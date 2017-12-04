@@ -67,6 +67,9 @@
     margin:0;
     background-image: url("front-sand.png");
     background-position-y: bottom;
+    width: 1026px;
+    height: 135px;
+    bottom: 0px;
 }
 
 .hud_top {

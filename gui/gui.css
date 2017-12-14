@@ -10,13 +10,16 @@ body {
 
 @font-face {
     font-family: mainFont;
-    src: url("ALFABET_.ttf");
+    src: url("THE MINION.ttf");
 }
 @font-face {
     font-family: secondaryFont;
     src: url("MATURASC.ttf");
 }
-
+@font-face {
+    font-family: levelFont;
+    src: url("ALFABET_.ttf");
+}
 #body {
     position:absolute;
     left:0;
@@ -43,7 +46,7 @@ body {
 }
 
 .menu {
-    background-image: url("background.png");
+    background-image: url("menu_bg.jpg");
     background-size: 100% 100%;
 }
 
@@ -51,40 +54,53 @@ body {
     color: #000000;
     font-size: 72px;
     text-shadow: 3px 3px 3px rgba(161, 161, 161, 0.8);
-    width:150px;
+    width:400px;
+    position: relative;
+    left: 192px;
+    top:100px;
 }
 
 div.buttons {
     position:absolute;
-    width:400px;
+    width:138px;
     height:auto;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: 250px;
     left: 0;
     right: 0;
-    top:280;
+    top:330px;
 }
 
 .css_button {
     display:inline-block;
-    font-size: 30px;
+    margin-top: 10px;
+    font-size: 18px;
     font-weight: normal;
     text-decoration: inherit;
-    background-image: url("parchemin.png");
+    background-image: url("button.png");
     background-size:100% 100%;
-    width:256px;
-    height:50px;
-    padding-top:10px;
+    width:138px;
+    height:65px;
+    color:#e6debd;
+    cursor: pointer!important;
 }
 
+.css_button p{
+    padding-top: 4px;
+    text-shadow: 2px 2px #093e44;
+    transition: all 0.5s;
+    cursor: pointer!important;
+}
+
+.css_button:hover p,.css_button:active p{
+    color:#fdb605;
+}
+
+/* SCALE animation
 .css_button:hover {
     -webkit-animation: cssAnimation 0.5s infinite ease-in-out alternate;
     -moz-animation: cssAnimation 0.5s infinite ease-in-out alternate;
     -o-animation: cssAnimation 0.5s infinite ease-in-out alternate;
-}
-
-.css_button:active {
-    color:grey;
 }
 
 @-webkit-keyframes cssAnimation {
@@ -101,3 +117,4 @@ div.buttons {
     from { -o-transform:  rotate(0deg) scale(1) skew(1deg) translate(0px); }
     to { -o-transform:  rotate(0deg) scale(1.084) skew(1deg) translate(0px); }
 }
+*/

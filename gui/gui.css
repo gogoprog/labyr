@@ -20,6 +20,19 @@ body {
     font-family: levelFont;
     src: url("ALFABET_.ttf");
 }
+
+.blue{
+    color: #1ea5b3;
+}
+
+.rose{
+    color:#ca5eff;
+}
+
+.number{
+    font-family: secondaryFont;
+}
+
 #body {
     position:absolute;
     left:0;
@@ -63,6 +76,9 @@ body {
 div.buttons {
     position:absolute;
     width:138px;
+}
+
+.menu .buttons {
     height:auto;
     margin-left: auto;
     margin-right: 250px;
@@ -70,6 +86,7 @@ div.buttons {
     right: 0;
     top:330px;
 }
+
 
 .css_button {
     display:inline-block;
@@ -94,6 +111,126 @@ div.buttons {
 
 .css_button:hover p,.css_button:active p{
     color:#fdb605;
+}
+
+#win .bg{
+    position: absolute;
+    background-repeat: no-repeat;
+    background-image: url("win_bg.jpg");
+    background-position: center;
+    width: 200%!important;
+    height: 200%!important;
+    left: -50%!important;
+    top: -50%!important;
+    -webkit-animation: rotation 20s infinite linear;
+}
+
+
+@-webkit-keyframes rotation {
+        from {-webkit-transform: rotate(0deg);}
+        to {-webkit-transform: rotate(359deg);}
+}
+
+#win .bg::before {
+    content: "";
+    background: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.5;
+    box-shadow: 0 0 211px 163px white;
+    transition: opacity .3s ease-in-out;
+    height: 500px;
+    width: 500px;
+    margin: auto;
+    border-radius: 500px;
+    mix-blend-mode: overlay;
+    -webkit-animation: heart 2s infinite ease-in-out alternate;
+}
+
+@-webkit-keyframes heart {
+    from { -webkit-transform:  rotate(0deg) scale(1) skew(1deg) translate(0px); }
+    to { -webkit-transform:  rotate(0deg) scale(0.65) skew(1deg) translate(0px); }
+}
+
+#win .title{
+    display: block;
+    background-image: url(victory_title.png);
+    background-size: 100% 100%;
+    width: 444px;
+    height: 109px;
+    margin: auto;
+    z-index: 1;
+    left: 0;
+    position: relative;
+    right: 0;
+    top: 47px;
+}
+
+#win .data{
+    z-index: 5;
+    position: relative;
+    top: 249px;
+}
+
+#win .bloc{
+    display: block;
+    background-image: url(win_bloc.png);
+    background-size: 100% 100%;
+    width: 448px;
+    height: 531px;
+    margin: auto;
+    z-index: 1;
+    position: absolute;
+    bottom: 56px;
+    left: 0;
+    right: 0;
+}
+
+#win .buttons{
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 148px;
+}
+
+#win .css_button{
+    margin-top: 6px;
+}
+
+#win .css_button p{
+    margin-top: 13px;
+    font-size: 27px;
+}
+
+#win .lvl{
+    position: relative;
+}
+
+#win .score{
+    position: relative;
+    top: 10px;
+    color:#fdb605;
+    font-size: 15px;
+    text-shadow: 1.5px 1.5px #063b3e; 
+}
+
+#win .score span{
+    font-size: 39px;
+    color: white;
+}
+
+#win .best{
+    position: relative;
+    font-size: 15px;
+    top: 8px;
+    color: #e6debd;
+}
+
+#win .best span{
+    font-size: 19px;
 }
 
 /* SCALE animation

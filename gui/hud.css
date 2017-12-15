@@ -35,7 +35,7 @@
     color: #d1b300;
 }
 
-.score {
+.hud .score {
     font-family: secondaryFont;
     font-size:25px;
     position:absolute;

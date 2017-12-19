@@ -23,7 +23,9 @@ class GameSystem extends System
     override public function addToEngine(_engine:Engine)
     {
         engine = _engine;
-        var level = {time: 80.9};
+        var level = {time: 80.9, probabilities: null, targets: null, powerup:0.3};
+
+        Session.current.level = level;
         gameStarted.dispatch(level);
     }
 

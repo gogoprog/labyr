@@ -62,6 +62,8 @@ class FillSystem extends System
     {
         var timePerHole = 0.1;
         var offset = GridConfig.offset;
+        var currentLevel = Session.current.level;
+
         for(i in 0...GridConfig.width)
         {
             var holes = 0;
@@ -88,7 +90,8 @@ class FillSystem extends System
             {
                 var dropOffset = 5;
                 var e:Entity;
-                if(Math.random() > 0.8)
+                var r:Float = Math.random();
+                if(r < currentLevel.powerup)
                 {
                     e = Factory.getItem(Type.enumIndex(TileType.POWERUP), 0, Std.random(4));
                 }

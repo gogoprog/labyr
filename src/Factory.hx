@@ -6,6 +6,7 @@ import components.*;
 import gengine.math.*;
 import components.Tile.TileType;
 import components.Tile.Powerup;
+import config.GridConfig;
 
 class Factory
 {

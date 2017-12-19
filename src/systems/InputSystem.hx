@@ -9,6 +9,7 @@ import nodes.*;
 import gengine.math.*;
 import haxe.ds.Vector;
 import components.Tile;
+import config.GridConfig;
 
 class InputSystem extends System
 {

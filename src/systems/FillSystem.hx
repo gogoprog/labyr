@@ -11,6 +11,7 @@ import haxe.ds.Vector;
 import components.Tile.TileType;
 import ash.tools.ListIteratingSystem;
 import pathfinder.*;
+import config.GridConfig;
 
 class FillSystem extends System
 {

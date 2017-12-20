@@ -6,6 +6,7 @@
     font-size:29px;
     text-align: center;
     color:#1d1d1b;
+    font-family: levelFont;
 }
 
 #inGame_menu #sound{
@@ -34,7 +35,7 @@
     color: #d1b300;
 }
 
-.score {
+.hud .score {
     font-family: secondaryFont;
     font-size:25px;
     position:absolute;
@@ -70,6 +71,7 @@
     width: 1026px;
     height: 135px;
     bottom: 0px;
+    pointer-events: none;
 }
 
 .hud_top {
@@ -139,6 +141,7 @@
     background-image: url("button-unpushed.png");
     -webkit-transition: background-image: 1s; 
     transition: background-image: 1s;
+    cursor: pointer!important;
 }
 
 #shuffle_button:hover{

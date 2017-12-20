@@ -10,11 +10,27 @@ body {
 
 @font-face {
     font-family: mainFont;
-    src: url("ALFABET_.ttf");
+    src: url("THE MINION.ttf");
 }
 @font-face {
     font-family: secondaryFont;
     src: url("MATURASC.ttf");
+}
+@font-face {
+    font-family: levelFont;
+    src: url("ALFABET_.ttf");
+}
+
+.blue{
+    color: #1ea5b3;
+}
+
+.rose{
+    color:#ca5eff;
+}
+
+.number{
+    font-family: secondaryFont;
 }
 
 #body {
@@ -43,7 +59,7 @@ body {
 }
 
 .menu {
-    background-image: url("background.png");
+    background-image: url("menu_bg.jpg");
     background-size: 100% 100%;
 }
 
@@ -51,40 +67,177 @@ body {
     color: #000000;
     font-size: 72px;
     text-shadow: 3px 3px 3px rgba(161, 161, 161, 0.8);
-    width:150px;
+    width:400px;
+    position: relative;
+    left: 192px;
+    top:100px;
 }
 
 div.buttons {
     position:absolute;
-    width:400px;
+    width:138px;
+}
+
+.menu .buttons {
     height:auto;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: 250px;
     left: 0;
     right: 0;
-    top:280;
+    top:330px;
 }
+
 
 .css_button {
     display:inline-block;
-    font-size: 30px;
+    margin-top: 10px;
+    font-size: 18px;
     font-weight: normal;
     text-decoration: inherit;
-    background-image: url("parchemin.png");
+    background-image: url("button.png");
     background-size:100% 100%;
-    width:256px;
-    height:50px;
-    padding-top:10px;
+    width:138px;
+    height:65px;
+    color:#e6debd;
+    cursor: pointer!important;
 }
 
+.css_button p{
+    padding-top: 4px;
+    text-shadow: 2px 2px #093e44;
+    transition: all 0.5s;
+    cursor: pointer!important;
+}
+
+.css_button:hover p,.css_button:active p{
+    color:#fdb605;
+}
+
+#win .bg{
+    position: absolute;
+    background-repeat: no-repeat;
+    background-image: url("win_bg.jpg");
+    background-position: center;
+    width: 200%!important;
+    height: 200%!important;
+    left: -50%!important;
+    top: -50%!important;
+    -webkit-animation: rotation 20s infinite linear;
+}
+
+
+@-webkit-keyframes rotation {
+        from {-webkit-transform: rotate(0deg);}
+        to {-webkit-transform: rotate(359deg);}
+}
+
+#win .bg::before {
+    content: "";
+    background: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.5;
+    box-shadow: 0 0 211px 163px white;
+    transition: opacity .3s ease-in-out;
+    height: 500px;
+    width: 500px;
+    margin: auto;
+    border-radius: 500px;
+    mix-blend-mode: overlay;
+    -webkit-animation: heart 2s infinite ease-in-out alternate;
+}
+
+@-webkit-keyframes heart {
+    from { -webkit-transform:  rotate(0deg) scale(1) skew(1deg) translate(0px); }
+    to { -webkit-transform:  rotate(0deg) scale(0.65) skew(1deg) translate(0px); }
+}
+
+#win .title{
+    display: block;
+    background-image: url(victory_title.png);
+    background-size: 100% 100%;
+    width: 444px;
+    height: 109px;
+    margin: auto;
+    z-index: 1;
+    left: 0;
+    position: relative;
+    right: 0;
+    top: 47px;
+}
+
+#win .data{
+    z-index: 5;
+    position: relative;
+    top: 249px;
+}
+
+#win .bloc{
+    display: block;
+    background-image: url(win_bloc.png);
+    background-size: 100% 100%;
+    width: 448px;
+    height: 531px;
+    margin: auto;
+    z-index: 1;
+    position: absolute;
+    bottom: 56px;
+    left: 0;
+    right: 0;
+}
+
+#win .buttons{
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 148px;
+}
+
+#win .css_button{
+    margin-top: 6px;
+}
+
+#win .css_button p{
+    margin-top: 13px;
+    font-size: 27px;
+}
+
+#win .lvl{
+    position: relative;
+}
+
+#win .score{
+    position: relative;
+    top: 10px;
+    color:#fdb605;
+    font-size: 15px;
+    text-shadow: 1.5px 1.5px #063b3e; 
+}
+
+#win .score span{
+    font-size: 39px;
+    color: white;
+}
+
+#win .best{
+    position: relative;
+    font-size: 15px;
+    top: 8px;
+    color: #e6debd;
+}
+
+#win .best span{
+    font-size: 19px;
+}
+
+/* SCALE animation
 .css_button:hover {
     -webkit-animation: cssAnimation 0.5s infinite ease-in-out alternate;
     -moz-animation: cssAnimation 0.5s infinite ease-in-out alternate;
     -o-animation: cssAnimation 0.5s infinite ease-in-out alternate;
-}
-
-.css_button:active {
-    color:grey;
 }
 
 @-webkit-keyframes cssAnimation {
@@ -101,3 +254,4 @@ div.buttons {
     from { -o-transform:  rotate(0deg) scale(1) skew(1deg) translate(0px); }
     to { -o-transform:  rotate(0deg) scale(1.084) skew(1deg) translate(0px); }
 }
+*/

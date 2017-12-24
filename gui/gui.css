@@ -10,7 +10,11 @@ body {
 
 @font-face {
     font-family: mainFont;
-    src: url("THE MINION.ttf");
+    src: url("the_minion-webfont.ttf") format('truetype'),
+         url('the_minion-webfont.woff2') format('woff2'),
+         url('the_minion-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 @font-face {
     font-family: secondaryFont;

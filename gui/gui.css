@@ -29,8 +29,16 @@ body {
     color: #1ea5b3;
 }
 
+.darkBlue{
+    color: #063b3e;
+}
+
 .rose{
     color:#ca5eff;
+}
+
+.darkRose{
+    color:#54245c;
 }
 
 .number{
@@ -135,7 +143,19 @@ div.buttons {
         to {-webkit-transform: rotate(359deg);}
 }
 
-#win .bg::before {
+#lose .bg{
+    position: absolute;
+    background-repeat: no-repeat;
+    background-image: url("lose_bg.jpg");
+    background-position: center;
+    width: 100%!important;
+    height: 100%!important;
+    left: 0;
+    top: 0;
+}
+
+
+#win .bg::before, #lose .bg::before {
     content: "";
     background: white;
     position: absolute;
@@ -143,7 +163,6 @@ div.buttons {
     right: 0;
     bottom: 0;
     left: 0;
-    opacity: 0.5;
     box-shadow: 0 0 211px 163px white;
     transition: opacity .3s ease-in-out;
     height: 500px;
@@ -154,17 +173,22 @@ div.buttons {
     -webkit-animation: heart 2s infinite ease-in-out alternate;
 }
 
+#win .bg::before{
+    opacity: 0.5;
+}
+
+#lose .bg::before{
+    opacity: 1;
+}
+
+
 @-webkit-keyframes heart {
     from { -webkit-transform:  rotate(0deg) scale(1) skew(1deg) translate(0px); }
     to { -webkit-transform:  rotate(0deg) scale(0.65) skew(1deg) translate(0px); }
 }
 
-#win .title{
+#win .title, #lose .title{
     display: block;
-    background-image: url(victory_title.png);
-    background-size: 100% 100%;
-    width: 444px;
-    height: 109px;
     margin: auto;
     z-index: 1;
     left: 0;
@@ -173,18 +197,32 @@ div.buttons {
     top: 47px;
 }
 
+#win .title{
+    background-size: 100% 100%;
+    width: 444px;
+    height: 109px;
+}
+
+#lose .title{
+    background-size: 100% 100%;
+    width: 585px;
+    height: 120px;
+}
+
 #win .data{
     z-index: 5;
     position: relative;
     top: 249px;
 }
 
-#win .bloc{
+#lose .data{
+    z-index: 5;
+    position: relative;
+    top: 237px;
+}
+
+#win .bloc, #lose .bloc{
     display: block;
-    background-image: url(win_bloc.png);
-    background-size: 100% 100%;
-    width: 448px;
-    height: 531px;
     margin: auto;
     z-index: 1;
     position: absolute;
@@ -193,27 +231,41 @@ div.buttons {
     right: 0;
 }
 
-#win .buttons{
+#win .bloc{
+    background-image: url(win_bloc.png);
+    background-size: 100% 100%;
+    width: 448px;
+    height: 531px;
+}
+
+#lose .bloc{
+    background-image: url(lose_bloc.png);
+    background-size: 100% 100%;
+    width: 448px;
+    height: 503px;
+}
+
+#win .buttons, #lose .buttons{
     margin: auto;
     left: 0;
     right: 0;
     top: 148px;
 }
 
-#win .css_button{
+#win .css_button, #lose .css_button{
     margin-top: 6px;
 }
 
-#win .css_button p{
+#win .css_button p, #lose .css_button p{
     margin-top: 13px;
     font-size: 27px;
 }
 
-#win .lvl{
+#win .lvl, #lose .lvl{
     position: relative;
 }
 
-#win .score{
+#win .score, #lose .score{
     position: relative;
     top: 10px;
     color:#fdb605;
@@ -221,19 +273,19 @@ div.buttons {
     text-shadow: 1.5px 1.5px #063b3e; 
 }
 
-#win .score span{
+#win .score span, #lose .score span{
     font-size: 39px;
     color: white;
 }
 
-#win .best{
+#win .best, #lose .best{
     position: relative;
     font-size: 15px;
     top: 8px;
     color: #e6debd;
 }
 
-#win .best span{
+#win .best span,#lose .best span{
     font-size: 19px;
 }
 
